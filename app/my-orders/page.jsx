@@ -15,6 +15,8 @@ const MyOrders = () => {
 
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showCancelPopup, setShowCancelPopup] = useState(false);
+    const [orderToCancel, setOrderToCancel] = useState(null);
 
     const fetchOrders = async () => {
         try {
@@ -35,13 +37,41 @@ const MyOrders = () => {
         } catch (error) {
             toast.error(error.message);
         }
-    }
+    };
+
+    const handleCancelOrder = async () => {
+        try {
+            console.log("Order to cancel:", orderToCancel); // Debugging log
+            const token = await getToken();
+            const { data } = await axios.delete(`/api/order/delete/${orderToCancel}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (data.success) {
+                toast.success("Order canceled successfully");
+                setOrders(orders.filter(order => order._id !== orderToCancel));
+                setShowCancelPopup(false);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     useEffect(() => {
         if (user) {
             fetchOrders();
         }
     }, [user]);
+
+    const isCancelable = (orderDate) => {
+        const orderTime = new Date(orderDate).getTime();
+        const currentTime = Date.now();
+        return (currentTime - orderTime) <= 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+    };
 
     return (
         <>
@@ -66,15 +96,19 @@ const MyOrders = () => {
                                     </p>
                                 </div>
                                 <div>
-                                    <p>
-                                        <span className="font-medium">{order.address.fullName}</span>
-                                        <br />
-                                        <span >{order.address.area}</span>
-                                        <br />
-                                        <span>{`${order.address.city}, ${order.address.state}`}</span>
-                                        <br />
-                                        <span>{order.address.phoneNumber}</span>
-                                    </p>
+                                    {order.address ? (
+                                        <p>
+                                            <span className="font-medium">{order.address.fullName}</span>
+                                            <br />
+                                            <span>{order.address.area}</span>
+                                            <br />
+                                            <span>{`${order.address.city}, ${order.address.state}`}</span>
+                                            <br />
+                                            <span>{order.address.phoneNumber}</span>
+                                        </p>
+                                    ) : (
+                                        <p className="text-red-500">Address not available</p>
+                                    )}
                                 </div>
                                 <p className="font-medium my-auto">{currency}{order.amount}</p>
                                 <div>
@@ -83,12 +117,44 @@ const MyOrders = () => {
                                         <span>Date : {new Date(order.date).toLocaleDateString()}</span>
                                         <span>Payment : Pending</span>
                                     </p>
+                                    {isCancelable(order.date) && (
+                                        <button
+                                            onClick={() => {
+                                                setOrderToCancel(order._id);
+                                                setShowCancelPopup(true);
+                                            }}
+                                            className="bg-red-500 text-white px-4 py-2 mt-3 hover:bg-red-600"
+                                        >
+                                            Cancel Order
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))}
                     </div>)}
                 </div>
             </div>
+            {showCancelPopup && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-md shadow-md text-center">
+                        <p className="text-lg font-medium mb-4">Are You Sure You Wanna Cancel Your Order?</p>
+                        <div className="flex justify-center gap-4">
+                            <button
+                                onClick={() => setShowCancelPopup(false)}
+                                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                            >
+                                No
+                            </button>
+                            <button
+                                onClick={handleCancelOrder}
+                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <Footer />
         </>
     );
