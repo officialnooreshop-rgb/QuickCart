@@ -1,5 +1,5 @@
 
-import { inngest } from "@/config/inngest";
+import Order from "@/Models/Order";
 import Product from "@/Models/Product";
 import User from "@/Models/User";
 import { getAuth } from "@clerk/nextjs/server";
@@ -15,23 +15,30 @@ export async function POST(request) {
         }
 
         //calculate total amount
-        const amount = items.reduce(async(acc, item) => {
+        let amount = 0;
+        const orderItems = [];
+        for (const item of items) {
             const product = await Product.findById(item.productId);
-            return acc + product.offerPrice * item.quantity;
-        },0)
+            amount += product.offerPrice * item.quantity;
+            orderItems.push({
+                product: product,
+                quantity: item.quantity
+            });
+        }
 
-        await inngest.send({
-            name: "order/created",
-            data: { userId,
-                 address,
-                  items,
-                   amount : amount + Math.floor(amount *0.02),
-                   date: Date.now()
-                 }
-        });
+        //create order
+        const orderData = {
+            userId,
+            items: orderItems,
+            amount: amount + Math.floor(amount * 0.02),
+            address,
+            date: Date.now()
+        };
+        const order = new Order(orderData);
+        await order.save();
 
         //clear user cart after order creation
-        const user = await User.findById(userId);
+        const user = await User.findOne({ _Id: userId });
         user.cartItems = {};
         await user.save();
 
