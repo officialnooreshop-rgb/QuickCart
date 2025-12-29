@@ -1,5 +1,5 @@
 {
-  "name": "ecommerce-inngest",
+  "name": "quickcart",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,6 @@
     "@clerk/nextjs": "^6.36.5",
     "axios": "^1.13.2",
     "cloudinary": "^2.8.0",
-    "inngest": "^3.48.1",
     "mongoose": "^9.0.2",
     "next": "^16.1.1",
     "react": "^19.2.1",
