@@ -14,10 +14,10 @@ async function connectDB() {
     const opts = {
       bufferCommands: false,
     };
-    }
-    cached.promise = mongoose.connect('${process.env.MONGODB_URI}/quickcart', opts).then(mongooses => {
+    cached.promise = mongoose.connect(`${process.env.MONGODB_URI}/quickcart`, opts).then(mongooses => {
       return mongoose
     })
+    }
     cached.conn = await cached.promise;
     return cached.conn;
 }
