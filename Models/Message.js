@@ -13,6 +13,10 @@ const MessageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
 }, { timestamps: true });
 
 const Message = mongoose.models.Message || mongoose.model('Message', MessageSchema);

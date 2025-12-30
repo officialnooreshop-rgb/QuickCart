@@ -50,7 +50,7 @@ import about_us from "./About-Us.png";
 import contact_us from "./Customer-Support.png";
 import vector_phone from "./Vector-Phone.png";
 import vector_email from "./Vector-Email.png";
-import vector_message from "./Vector-Message.png";
+import message_icon from "./Vector-Message.svg";
 
 
 export const assets = {

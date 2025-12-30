@@ -10,7 +10,7 @@ import Image from "next/image";
 
 export default function ContactPage() {
   const { isSignedIn } = useUser();
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "", phoneNumber: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +27,7 @@ export default function ContactPage() {
       });
 
       toast.success("Message sent successfully!");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", message: "", phoneNumber: "" });
     } catch (err) {
       toast.error("Failed to send message. Try again!");
       console.error(err);
@@ -67,6 +67,15 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Email"
+                  required
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
                   required
                   className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />

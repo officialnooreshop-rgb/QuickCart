@@ -10,6 +10,7 @@ const SideBar = () => {
         { name: 'Add Product', path: '/seller', icon: assets.add_icon },
         { name: 'Product List', path: '/seller/product-list', icon: assets.product_list_icon },
         { name: 'Orders', path: '/seller/orders', icon: assets.order_icon },
+        { name: 'Messages', path: '/seller/messages', icon: assets.message_icon }, // Added Messages option
     ];
 
     return (
@@ -28,11 +29,13 @@ const SideBar = () => {
                                 }`
                             }
                         >
-                            <Image
-                                src={item.icon}
-                                alt={`${item.name.toLowerCase()}_icon`}
-                                className="w-7 h-7"
-                            />
+                            {item.icon ? (
+                                <Image
+                                    src={item.icon}
+                                    alt={`${item.name.toLowerCase()}_icon`}
+                                    className="w-7 h-7"
+                                />
+                            ) : null}
                             <p className='md:block hidden text-center'>{item.name}</p>
                         </div>
                     </Link>
