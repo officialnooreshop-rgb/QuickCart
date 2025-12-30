@@ -6,20 +6,20 @@ const products = [
   {
     id: 1,
     image: assets.girl_with_headphone_image,
-    title: "Unparalleled Sound",
-    description: "Experience crystal-clear audio with premium headphones.",
+    title: "Men Shalwar Kameez",
+    description: "lassic and comfortable men’s shalwar kameez, ideal for casual wear, office, and festive occasions.",
   },
   {
     id: 2,
     image: assets.girl_with_earphone_image,
-    title: "Stay Connected",
-    description: "Compact and stylish earphones for every occasion.",
+    title: "Kids Shalwar Kameez",
+    description: "Comfortable and stylish Kids Shalwar Kameez made with soft, breathable fabric for everyday wear and special occasions.",
   },
   {
     id: 3,
     image: assets.boy_with_laptop_image,
-    title: "Power in Every Pixel",
-    description: "Shop the latest laptops for work, gaming, and more.",
+    title: "Women Shalwar Kameez",
+    description: "Elegant and comfortable Women Shalwar Kameez, perfect for everyday wear and special occasions.",
   },
 ];
 
