@@ -48,6 +48,11 @@ import product_details_page_apple_earphone_image4 from "./product_details_page_a
 import product_details_page_apple_earphone_image5 from "./product_details_page_apple_earphone_image5.png";
 import about_us from "./About-Us.png";
 import contact_us from "./Customer-Support.png";
+import vector_phone from "./Vector-Phone.png";
+import vector_email from "./Vector-Email.png";
+import vector_message from "./Vector-Message.png";
+
+
 export const assets = {
   logo,
   search_icon,
