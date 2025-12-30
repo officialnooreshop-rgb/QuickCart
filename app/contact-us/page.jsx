@@ -39,8 +39,8 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <Toaster position="top-right" />
       <main className="min-h-screen bg-gray-50 px-6 py-12 md:px-16">
+        <Toaster position="top-right" reverseOrder={false} />
         <h1 className="text-4xl font-extrabold text-gray-900 mb-10">Contact Us</h1>
 
         <div className="flex flex-col md:flex-row items-center gap-12">

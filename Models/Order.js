@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Amarante } from "next/font/google";
+import Address from "./Address"; // Import Address model
 
 const orderSchema = new mongoose.Schema({
     userId: { type: String, required: true, ref: "user" },
