@@ -47,7 +47,7 @@ export default function ContactPage() {
           {/* Form */}
           <div className="flex-1 bg-white p-8 rounded-xl shadow-md">
             {!isSignedIn ? (
-              <p className="text-center text-orange-600 font-semibold">
+              <p className="text-center text-[#fdb242] font-semibold">
                 Please log in to send a message.
               </p>
             ) : (
@@ -59,7 +59,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Name"
                   required
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
                 />
                 <input
                   type="email"
@@ -68,7 +68,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Email"
                   required
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
                 />
                 <input
                   type="text"
@@ -77,7 +77,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Phone Number"
                   required
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
                 />
                 <textarea
                   name="message"
@@ -86,12 +86,12 @@ export default function ContactPage() {
                   placeholder="Message"
                   required
                   rows={5}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-orange-600 text-white p-3 rounded-lg font-semibold hover:bg-orange-700 transition disabled:opacity-60"
+                  className="w-full bg-[#fdb242] text-white p-3 rounded-lg font-semibold hover:bg-[#f2a832] transition disabled:opacity-60"
                 >
                   {loading ? "Sending..." : "Send Message"}
                 </button>
