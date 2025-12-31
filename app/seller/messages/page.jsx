@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Navbar from "@/components/seller/Navbar";
 import Sidebar from "@/components/seller/Sidebar";
+import toast, { Toaster } from "react-hot-toast";
 
 const MessagesPage = () => {
   const [messages, setMessages] = useState([]);
@@ -13,9 +13,12 @@ const MessagesPage = () => {
       try {
         const response = await fetch("/api/messages/list");
         const data = await response.json();
-        setMessages(data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))); // Sort by newest first
+        setMessages(
+          data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        );
       } catch (error) {
         console.error("Failed to fetch messages:", error);
+        toast.error("Failed to fetch messages");
       } finally {
         setLoading(false);
       }
@@ -25,28 +28,46 @@ const MessagesPage = () => {
   }, []);
 
   return (
-    <div className="flex">
-      <div className="flex-1">
-        <main className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Messages</h1>
+    <div className="flex min-h-screen bg-gray-50">
+
+      <div className="flex-1 flex flex-col">
+        <main className="p-4 md:p-8 max-w-7xl mx-auto w-full">
+          <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">Messages</h1>
+
           {loading ? (
-            <p>Loading messages...</p>
+            <p className="text-gray-700">Loading messages...</p>
           ) : messages.length > 0 ? (
-            <ul className="space-y-4">
-              {messages.map((message) => (
-                <li key={message._id} className="p-4 border rounded-lg">
-                  <p><strong>Name:</strong> {message.name}</p>
-                  <p><strong>Email:</strong> {message.email}</p>
-                  <p><strong>Message:</strong> {message.message}</p>
-                  <p><strong>Phone:</strong> {message.phoneNumber}</p>
+            <ul className="space-y-4 md:space-y-6">
+              {messages.map((msg) => (
+                <li
+                  key={msg._id}
+                  className="p-4 md:p-6 border border-gray-200 rounded-2xl shadow hover:shadow-lg transition bg-white"
+                >
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                    <p className="font-semibold text-gray-800 text-sm md:text-base">{msg.name}</p>
+                    <span className="text-xs md:text-sm text-gray-500 mt-1 md:mt-0">
+                      {new Date(msg.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-gray-700 text-xs md:text-sm">
+                    <strong>Email:</strong> {msg.email}
+                  </p>
+                  <p className="text-gray-700 text-xs md:text-sm">
+                    <strong>Phone:</strong> {msg.phoneNumber}
+                  </p>
+                  <p className="text-gray-700 text-xs md:text-sm mt-2">
+                    <strong>Message:</strong> {msg.message}
+                  </p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No messages found.</p>
+            <p className="text-gray-700">No messages found.</p>
           )}
         </main>
       </div>
+
+      <Toaster position="top-right" />
     </div>
   );
 };

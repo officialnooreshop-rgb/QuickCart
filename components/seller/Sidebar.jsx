@@ -5,44 +5,45 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 
 const SideBar = () => {
-    const pathname = usePathname()
-    const menuItems = [
-        { name: 'Add Product', path: '/seller', icon: assets.add_icon },
-        { name: 'Product List', path: '/seller/product-list', icon: assets.product_list_icon },
-        { name: 'Orders', path: '/seller/orders', icon: assets.order_icon },
-        { name: 'Messages', path: '/seller/messages', icon: assets.message_icon }, // Added Messages option
-    ];
+  const pathname = usePathname();
 
-    return (
-        <div className='md:w-64 w-16 border-r min-h-screen text-base border-gray-300 py-2 flex flex-col'>
-            {menuItems.map((item) => {
+  const menuItems = [
+    { name: 'Add Product', path: '/seller', icon: assets.add_icon },
+    { name: 'Product List', path: '/seller/product-list', icon: assets.product_list_icon },
+    { name: 'Orders', path: '/seller/orders', icon: assets.order_icon },
+    { name: 'Messages', path: '/seller/messages', icon: assets.message_icon },
+  ];
 
-                const isActive = pathname === item.path;
+  return (
+    <div className="md:w-64 w-16 border-r min-h-screen border-gray-300 py-4 flex flex-col bg-white shadow-md">
+      {menuItems.map((item) => {
+        const isActive = pathname === item.path;
 
-                return (
-                    <Link href={item.path} key={item.name} passHref>
-                        <div
-                            className={
-                                `flex items-center py-3 px-4 gap-3 ${isActive
-                                    ? "border-r-4 md:border-r-[6px] bg-[#fdb242]/10 border-[#f3e1b5]/90"
-                                    : "hover:bg-gray-100/90 border-white"
-                                }`
-                            }
-                        >
-                            {item.icon ? (
-                                <Image
-                                    src={item.icon}
-                                    alt={`${item.name.toLowerCase()}_icon`}
-                                    className="w-7 h-7"
-                                />
-                            ) : null}
-                            <p className='md:block hidden text-center'>{item.name}</p>
-                        </div>
-                    </Link>
-                );
-            })}
-        </div>
-    );
+        return (
+          <Link href={item.path} key={item.name} passHref>
+            <div
+              className={`
+                flex items-center py-3 px-4 gap-4 rounded-r-xl transition-all duration-200 cursor-pointer
+                ${isActive 
+                  ? "bg-[#fdb242]/20 border-r-4 border-[#d4af37]" 
+                  : "hover:bg-gray-100/60"
+                }
+              `}
+            >
+              {item.icon && (
+                <Image
+                  src={item.icon}
+                  alt={`${item.name.toLowerCase()}_icon`}
+                  className="w-7 h-7"
+                />
+              )}
+              <p className="md:block hidden text-gray-800 font-medium">{item.name}</p>
+            </div>
+          </Link>
+        );
+      })}
+    </div>
+  );
 };
 
 export default SideBar;

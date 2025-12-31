@@ -21,13 +21,13 @@ const Footer = () => {
                 <a className="hover:underline transition" href="#">Home</a>
               </li>
               <li>
-                <a className="hover:underline transition" href="#">About us</a>
+                <a className="hover:underline transition" href="/about-us">About us</a>
               </li>
               <li>
                 <a className="hover:underline transition" href="/contact-us">Contact us</a>
               </li>
               <li>
-                <a className="hover:underline transition" href="#">Privacy policy</a>
+                <a className="hover:underline transition" href="/privacy-policy">Privacy policy</a>
               </li>
             </ul>
           </div>

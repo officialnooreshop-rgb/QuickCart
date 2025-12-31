@@ -10,7 +10,7 @@ import Image from "next/image";
 
 export default function ContactPage() {
   const { isSignedIn } = useUser();
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", phoneNumber: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phoneNumber: "", message: "" });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,16 +20,20 @@ export default function ContactPage() {
     setLoading(true);
 
     try {
-      await fetch("/api/messages", {
+      const res = await fetch("/api/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      toast.success("Message sent successfully!");
-      setFormData({ name: "", email: "", message: "", phoneNumber: "" });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "Failed to send message");
+
+      toast.success(data.message || "Message sent successfully!");
+      setFormData({ name: "", email: "", phoneNumber: "", message: "" });
     } catch (err) {
-      toast.error("Failed to send message. Try again!");
+      toast.error(err.message || "Something went wrong!");
       console.error(err);
     } finally {
       setLoading(false);
@@ -39,19 +43,21 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50 px-6 py-12 md:px-16">
-        <Toaster position="top-right" reverseOrder={false} />
-        <h1 className="text-4xl font-extrabold text-gray-900 mb-10">Contact Us</h1>
+      <Toaster position="top-right" />
+      <main className="min-h-screen bg-white px-6 py-12 md:px-16">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-12 text-center">
+          Contact <span className="text-[#d4af37]">Us</span>
+        </h1>
 
-        <div className="flex flex-col md:flex-row items-center gap-12">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-12 max-w-6xl mx-auto">
           {/* Form */}
-          <div className="flex-1 bg-white p-8 rounded-xl shadow-md">
+          <div className="flex-1 bg-white p-10 rounded-2xl shadow-lg border border-[#d4af37]/40">
             {!isSignedIn ? (
-              <p className="text-center text-[#fdb242] font-semibold">
+              <p className="text-center text-[#d4af37] font-semibold">
                 Please log in to send a message.
               </p>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <input
                   type="text"
                   name="name"
@@ -59,7 +65,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Name"
                   required
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
+                  className="w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
                 />
                 <input
                   type="email"
@@ -68,7 +74,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Email"
                   required
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
+                  className="w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
                 />
                 <input
                   type="text"
@@ -77,7 +83,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Phone Number"
                   required
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
+                  className="w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
                 />
                 <textarea
                   name="message"
@@ -85,13 +91,13 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Message"
                   required
-                  rows={5}
-                  className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
+                  rows={6}
+                  className="w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#fdb242] text-white p-3 rounded-lg font-semibold hover:bg-[#f2a832] transition disabled:opacity-60"
+                  className="w-full bg-[#d4af37] text-black font-semibold p-4 rounded-full hover:opacity-90 transition disabled:opacity-60"
                 >
                   {loading ? "Sending..." : "Send Message"}
                 </button>
@@ -104,9 +110,9 @@ export default function ContactPage() {
             <Image
               src={contact_us}
               alt="Contact Us"
-              width={500} // Adjust width as needed
-              height={500} // Adjust height as needed
-              className="w-full h-auto rounded-lg"
+              width={500}
+              height={500}
+              className="w-full h-auto rounded-xl shadow-md"
             />
           </div>
         </div>
