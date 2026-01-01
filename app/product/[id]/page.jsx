@@ -96,17 +96,7 @@ const Product = () => {
                             <tbody>
                                 <tr>
                                     <td className="text-gray-600 font-medium">Brand</td>
-                                    <td className="text-gray-800/50 ">Generic</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-gray-600 font-medium">Color</td>
-                                    <td className="text-gray-800/50 ">Multi</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-gray-600 font-medium">Category</td>
-                                    <td className="text-gray-800/50">
-                                        {productData.category}
-                                    </td>
+                                    <td className="text-[#fdb242]/80 ">Noore</td>
                                 </tr>
                             </tbody>
                         </table>
