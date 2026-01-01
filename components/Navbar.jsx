@@ -54,18 +54,21 @@ const Navbar = () => {
 
       {/* CART + USER DESKTOP */}
       <div className="hidden md:flex items-center gap-4 relative">
-        {/* Cart */}
-        <button
-          onClick={() => router.push("/cart")}
-          className="relative flex items-center gap-1 text-gray-700 hover:text-[#B8860B] transition transform hover:-translate-y-1"
-        >
-          <CartIcon className="w-6 h-6" />
-          {getCartCount() > 0 && (
-            <span className="absolute -top-2 -right-2 bg-[#B8860B] text-white text-[10px] font-semibold w-4 h-4 flex items-center justify-center rounded-full leading-none animate-bounce">
-              {getCartCount() > 9 ? "9+" : getCartCount()}
-            </span>
-          )}
-        </button>
+       {/* MOBILE CART */}
+<button
+  onClick={() => router.push("/cart")}
+  className="relative"
+>
+  <CartIcon className="w-6 h-6" />
+  {getCartCount() > 0 && (
+    <span
+      className="absolute -top-1.5 -right-1.5 bg-[#B8860B] text-white text-[10px] font-semibold w-4 h-4 flex items-center justify-center rounded-full leading-none animate-bounce"
+    >
+      {getCartCount() > 9 ? "9+" : getCartCount()}
+    </span>
+  )}
+</button>
+
 
         {/* User */}
         {user ? (
@@ -111,16 +114,19 @@ const Navbar = () => {
         )}
         <div className="flex items-center gap-4">
           <button
-            onClick={() => router.push("/cart")}
-            className="relative"
-          >
-            <CartIcon />
-            {getCartCount() > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 bg-[#B8860B] text-white text-[10px] font-semibold w-4 h-4 flex items-center justify-center rounded-full leading-none transition-transform duration-200 hover:scale-110">
-                {getCartCount() > 9 ? "9+" : getCartCount()}
-              </span>
-            )}
-          </button>
+  onClick={() => router.push("/cart")}
+  className="relative"
+>
+  <CartIcon className="w-6 h-6" />
+  {getCartCount() > 0 && (
+    <span
+      className="absolute -top-1.5 -right-1.5 bg-[#B8860B] text-white text-[10px] font-semibold w-4 h-4 flex items-center justify-center rounded-full leading-none animate-bounce"
+    >
+      {getCartCount() > 9 ? "9+" : getCartCount()}
+    </span>
+  )}
+</button>
+
 
           {user ? (
             <UserButton>

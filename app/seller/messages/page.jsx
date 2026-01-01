@@ -2,19 +2,42 @@
 
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const MessagesPage = () => {
+  const { isSignedIn, user } = useUser();
+  const router = useRouter();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Redirect if not signed in
+    if (!isSignedIn) {
+      toast.error("You must be signed in to view messages");
+      return;
+    }
+
+    // Check if user is a seller (you can use custom claims or metadata)
+    const isSeller = user?.publicMetadata?.role === "seller";
+    if (!isSeller) {
+      toast.error("You are not authorized to view this page");
+      router.push("/");
+      return;
+    }
+
     const fetchMessages = async () => {
       try {
         const response = await fetch("/api/messages/list");
-        const data = await response.json();
-        setMessages(
-          data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-        );
+ const data = await response.json();
+setMessages(
+  data
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map(JSON.stringify) // serialize
+    .filter((v, i, a) => a.indexOf(v) === i) // remove duplicates
+    .map(JSON.parse) // deserialize
+);
+
       } catch (error) {
         console.error("Failed to fetch messages:", error);
         toast.error("Failed to fetch messages");
@@ -24,7 +47,7 @@ const MessagesPage = () => {
     };
 
     fetchMessages();
-  }, []);
+  }, [isSignedIn, user, router]);
 
   return (
     <div className="min-h-screen bg-[#ffffff] flex flex-col">
