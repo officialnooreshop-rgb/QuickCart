@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState } from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
@@ -27,7 +27,6 @@ const AddProduct = () => {
     formData.append("category", category);
     formData.append("price", price);
     formData.append("offerPrice", offerPrice);
-
     files.forEach((file) => formData.append("images", file));
 
     try {
@@ -60,30 +59,28 @@ const AddProduct = () => {
         onSubmit={handleSubmit}
         className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-2xl shadow-lg space-y-6"
       >
-        {/* Image Upload */}
+        {/* Images */}
         <div>
           <p className="text-lg font-medium mb-2">Product Images</p>
           <div className="flex flex-wrap gap-4">
-            {[...Array(4)].map((_, index) => (
+            {[...Array(4)].map((_, i) => (
               <label
-                key={index}
-                htmlFor={`image${index}`}
+                key={i}
+                htmlFor={`image${i}`}
                 className="relative w-24 h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#d4af37] transition"
               >
                 <input
+                  id={`image${i}`}
                   type="file"
-                  id={`image${index}`}
                   hidden
                   onChange={(e) => {
                     const updatedFiles = [...files];
-                    updatedFiles[index] = e.target.files[0];
+                    updatedFiles[i] = e.target.files[0];
                     setFiles(updatedFiles);
                   }}
                 />
                 <Image
-                  src={
-                    files[index] ? URL.createObjectURL(files[index]) : assets.upload_area
-                  }
+                  src={files[i] ? URL.createObjectURL(files[i]) : assets.upload_area}
                   alt="product"
                   fill
                   className="object-cover rounded-xl"
@@ -93,11 +90,9 @@ const AddProduct = () => {
           </div>
         </div>
 
-        {/* Product Name */}
+        {/* Name & Description */}
         <div className="flex flex-col gap-2">
-          <label className="text-lg font-medium" htmlFor="product-name">
-            Product Name
-          </label>
+          <label htmlFor="product-name" className="text-lg font-medium">Product Name</label>
           <input
             id="product-name"
             type="text"
@@ -109,11 +104,8 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Product Description */}
         <div className="flex flex-col gap-2">
-          <label className="text-lg font-medium" htmlFor="product-description">
-            Product Description
-          </label>
+          <label htmlFor="product-description" className="text-lg font-medium">Product Description</label>
           <textarea
             id="product-description"
             rows={4}
@@ -127,15 +119,14 @@ const AddProduct = () => {
 
         {/* Category & Pricing */}
         <div className="flex flex-wrap gap-4">
-          <div className="flex flex-col gap-2 w-36">
-            <label className="text-lg font-medium" htmlFor="category">
-              Category
-            </label>
+          {/* Cool Category Dropdown */}
+          <div className="flex flex-col gap-2 w-36 relative">
+            <label htmlFor="category" className="text-lg font-medium">Category</label>
             <select
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="px-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
+              className="appearance-none w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4af37] bg-white cursor-pointer shadow-sm hover:shadow-md transition duration-200 pr-8"
             >
               <option value="Earphone">Featured Products</option>
               <option value="Headphone">Men Shalwar Kameez</option>
@@ -143,12 +134,21 @@ const AddProduct = () => {
               <option value="Smartphone">Kids Shalwar Kameez</option>
               <option value="Laptop">Waist Coat</option>
             </select>
+            <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
+              <svg
+                className="w-4 h-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2 w-36">
-            <label className="text-lg font-medium" htmlFor="product-price">
-              Product Price
-            </label>
+            <label htmlFor="product-price" className="text-lg font-medium">Product Price</label>
             <input
               id="product-price"
               type="number"
@@ -161,9 +161,7 @@ const AddProduct = () => {
           </div>
 
           <div className="flex flex-col gap-2 w-36">
-            <label className="text-lg font-medium" htmlFor="offer-price">
-              Offer Price
-            </label>
+            <label htmlFor="offer-price" className="text-lg font-medium">Offer Price</label>
             <input
               id="offer-price"
               type="number"
@@ -176,7 +174,7 @@ const AddProduct = () => {
           </div>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}

@@ -4,13 +4,22 @@ import Image from 'next/image'
 import { useAppContext } from '@/context/AppContext'
 
 const Navbar = () => {
-
   const { router } = useAppContext()
 
   return (
-    <div className='flex items-center px-4 md:px-8 py-3 justify-between border-b'>
-      <Image onClick={()=>router.push('/')} className='w-16 lg:w-20 cursor-pointer' src={assets.logo} alt="" />
-      <button className='bg-gray-600 text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm'>Logout</button>
+    <div className="flex items-center justify-between px-4 md:px-8 py-3 bg-white/50 backdrop-blur-md shadow-md rounded-b-xl border-b border-gray-200">
+      {/* Logo */}
+      <Image
+        onClick={() => router.push('/')}
+        className="w-16 lg:w-20 cursor-pointer transition-transform hover:scale-105"
+        src={assets.logo}
+        alt="Logo"
+      />
+
+      {/* Logout Button */}
+      <button className="bg-[#B8860B] text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-sm hover:bg-[#A7780A] transition-colors shadow-sm">
+        Logout
+      </button>
     </div>
   )
 }

@@ -3,16 +3,30 @@ import ProductCard from "./ProductCard";
 import { useAppContext } from "@/context/AppContext";
 
 const HomeProducts = () => {
-
-  const { products, router } = useAppContext()
+  const { products, router } = useAppContext();
 
   return (
-    <div className="flex flex-col items-center pt-14">
-      <p className="text-2xl font-medium text-left w-full">Popular products</p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 flex-col items-center gap-6 mt-6 pb-14 w-full">
-        {products.map((product, index) => <ProductCard key={index} product={product} />)}
+    <div className="flex flex-col items-center pt-16 px-4 md:px-14">
+      {/* SECTION HEADER */}
+      <div className="flex flex-col items-center w-full mb-8">
+        <p className="text-3xl md:text-4xl font-bold text-[#1E2A38]">
+          Popular Products
+        </p>
+        <div className="w-28 h-1 rounded bg-[#B8860B] mt-2" />
       </div>
-      <button onClick={() => { router.push('/all-products') }} className="px-12 py-2.5 border rounded text-gray-500/70 hover:bg-slate-50/90 transition">
+
+      {/* PRODUCT GRID */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 md:gap-10 w-full">
+        {products.map((product, index) => (
+          <ProductCard key={index} product={product} />
+        ))}
+      </div>
+
+      {/* SEE MORE BUTTON */}
+      <button
+        onClick={() => router.push("/all-products")}
+        className="mt-12 px-12 py-3 rounded-full bg-[#B8860B] text-[#ffffff] font-semibold shadow-lg hover:scale-105 transition-transform duration-300"
+      >
         See more
       </button>
     </div>

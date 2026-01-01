@@ -23,11 +23,12 @@ const HeaderSlider = () => {
     {
       id: 3,
       title: "Explore Our New Waist coats Collection!",
-      offer: "New Arricals",
+      offer: "New Arrivals",
       buttonText1: "Order Now",
       buttonText2: "Learn More",
       imgSrc: assets.header_macbook_image,
     },
+    
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -35,62 +36,75 @@ const HeaderSlider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % sliderData.length);
-    }, 3000);
+    }, 4000); // slower for luxury feel
     return () => clearInterval(interval);
   }, [sliderData.length]);
 
-  const handleSlideChange = (index) => {
-    setCurrentSlide(index);
-  };
+  const handleSlideChange = (index) => setCurrentSlide(index);
 
   return (
-    <div className="overflow-hidden relative w-full">
+  <div className="relative w-full overflow-hidden mt-2"> {/* 2px gap from navbar */}
+      {/* SLIDES */}
       <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{
-          transform: `translateX(-${currentSlide * 100}%)`,
-        }}
+        className="flex transition-transform duration-1000 ease-in-out"
+        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {sliderData.map((slide, index) => (
           <div
             key={slide.id}
-            className="flex flex-col-reverse md:flex-row items-center justify-between bg-[#E6E9F2] py-8 md:px-14 px-5 mt-6 rounded-xl min-w-full"
+            className="min-w-full flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-14 py-10 bg-gradient-to-r from-[#FAFAFA] via-[#F7F7F7] to-[#FAFAFA] rounded-3xl"
           >
-            <div className="md:pl-8 mt-10 md:mt-0">
-              <p className="md:text-base text-[#3B4A59] pb-1">{slide.offer}</p>
-              <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-[#e69a22] text-2xl font-semibold">
+            {/* TEXT */}
+            <div className="max-w-lg md:pl-8 text-center md:text-left mt-8 md:mt-0">
+              <p className="text-sm md:text-base text-[#B8860B] font-medium tracking-wide mb-2">
+                {slide.offer}
+              </p>
+              <h1 className="text-2xl md:text-5xl font-bold text-[#1E2A38] leading-snug md:leading-tight mb-4">
                 {slide.title}
               </h1>
-              <div className="flex items-center mt-4 md:mt-6 ">
-                <button className="md:px-10 px-7 md:py-2.5 py-2 bg-[#3B4A59] rounded-full text-white font-medium">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mt-4 md:mt-6">
+                <button className="px-8 py-2 md:px-10 md:py-3 rounded-full bg-[#B8860B] text-[#1E2A38] font-semibold shadow-lg hover:scale-105 transition-transform">
                   {slide.buttonText1}
                 </button>
-                <button className="group flex items-center gap-2 px-6 py-2.5 font-medium">
+                <button className="group flex items-center gap-2 text-[#1E2A38] font-medium hover:gap-3 transition-all">
                   {slide.buttonText2}
-                  <Image className="group-hover:translate-x-1 transition" src={assets.arrow_icon} alt="arrow_icon" />
+                  <Image
+                    src={assets.arrow_icon}
+                    alt="arrow"
+                    className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                  />
                 </button>
               </div>
             </div>
-            <div className="flex items-center flex-1 justify-center">
-              <Image
-                className="md:w-72 w-48"
-                src={slide.imgSrc}
-                alt={`Slide ${index + 1}`}
-              />
+
+            {/* IMAGE */}
+            <div className="flex justify-center flex-1 mt-6 md:mt-0">
+              <div className="relative group">
+                <Image
+                  src={slide.imgSrc}
+                  alt={`Slide ${index + 1}`}
+                  className="w-56 md:w-80 rounded-2xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* GLASS AURA */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-white/20 via-white/10 to-transparent opacity-0 group-hover:opacity-40 transition-opacity"></div>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-2 mt-8">
+      {/* DOTS */}
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3">
         {sliderData.map((_, index) => (
-          <div
+          <span
             key={index}
             onClick={() => handleSlideChange(index)}
-            className={`h-2 w-2 rounded-full cursor-pointer ${
-              currentSlide === index ? "bg-[#fdb242]" : "bg-gray-500/30"
+            className={`h-3 w-3 rounded-full cursor-pointer transition-all ${
+              currentSlide === index
+                ? "bg-[#A78B5B] scale-125"
+                : "bg-gray-400/40"
             }`}
-          ></div>
+          />
         ))}
       </div>
     </div>

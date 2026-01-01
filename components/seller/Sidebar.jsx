@@ -15,7 +15,7 @@ const SideBar = () => {
   ];
 
   return (
-    <div className="md:w-64 w-16 border-r min-h-screen border-gray-300 py-4 flex flex-col bg-white shadow-md">
+    <div className="md:w-64 w-16 min-h-screen border-r border-gray-300 py-4 flex flex-col bg-white/50 backdrop-blur-md shadow-lg">
       {menuItems.map((item) => {
         const isActive = pathname === item.path;
 
@@ -25,8 +25,8 @@ const SideBar = () => {
               className={`
                 flex items-center py-3 px-4 gap-4 rounded-r-xl transition-all duration-200 cursor-pointer
                 ${isActive 
-                  ? "bg-[#fdb242]/20 border-r-4 border-[#d4af37]" 
-                  : "hover:bg-gray-100/60"
+                  ? "bg-[#fdb242]/30 border-r-4 border-[#d4af37] shadow-inner" 
+                  : "hover:bg-gray-100/30 hover:backdrop-blur-sm"
                 }
               `}
             >
@@ -34,10 +34,12 @@ const SideBar = () => {
                 <Image
                   src={item.icon}
                   alt={`${item.name.toLowerCase()}_icon`}
-                  className="w-7 h-7"
+                  className="w-7 h-7 transition-transform hover:scale-110"
                 />
               )}
-              <p className="md:block hidden text-gray-800 font-medium">{item.name}</p>
+              <p className="md:block hidden text-gray-800 font-medium select-none">
+                {item.name}
+              </p>
             </div>
           </Link>
         );

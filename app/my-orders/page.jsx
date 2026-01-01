@@ -11,13 +11,11 @@ import axios from "axios";
 
 const MyOrders = () => {
   const { currency, getToken, user } = useAppContext();
-
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const [orderToCancel, setOrderToCancel] = useState(null);
 
-  // Fetch user orders
   const fetchOrders = async () => {
     try {
       const token = await getToken();
@@ -27,16 +25,16 @@ const MyOrders = () => {
 
       if (data.success) {
         setOrders(data.orders.reverse());
-        setLoading(false);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Cancel order
   const handleCancelOrder = async () => {
     try {
       const token = await getToken();
@@ -56,118 +54,110 @@ const MyOrders = () => {
     }
   };
 
-  // Check if order is cancelable (6 hours)
   const isCancelable = (orderDate) => {
     const orderTime = new Date(orderDate).getTime();
-    const currentTime = Date.now();
-    return currentTime - orderTime <= 6 * 60 * 60 * 1000;
+    return Date.now() - orderTime <= 6 * 60 * 60 * 1000;
   };
 
   useEffect(() => {
-    if (user) {
-      fetchOrders();
-    }
+    if (user) fetchOrders();
   }, [user]);
 
   return (
     <>
       <Navbar />
-      <div className="flex flex-col justify-between px-6 md:px-16 lg:px-32 py-6 min-h-screen">
-        <div className="space-y-5">
-          <h2 className="text-lg font-medium mt-6">My Orders</h2>
-          {loading ? (
-            <Loading />
-          ) : (
-            <div className="max-w-5xl border-t border-gray-300 text-sm space-y-5">
-              {orders.map((order, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col md:flex-row gap-5 justify-between p-5 border-b border-gray-300"
-                >
-                  {/* Items */}
-                  <div className="flex-1 flex gap-5 max-w-80">
+      <div className="px-6 md:px-16 lg:px-32 pt-14 pb-20 min-h-screen bg-gray-50">
+        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">My Orders</h2>
+
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="flex flex-col gap-6">
+            {orders.map((order) => (
+              <div
+                key={order._id}
+                className="flex flex-col md:flex-row justify-between p-6 rounded-2xl bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 gap-4"
+              >
+                {/* Items */}
+                <div className="flex-1 flex gap-4 items-start md:items-center">
+                  <div className="flex-shrink-0 rounded-xl overflow-hidden bg-gray-100 p-2">
                     <Image
-                      className="max-w-16 max-h-16 object-cover"
                       src={assets.box_icon}
-                      alt="box_icon"
+                      alt="order_icon"
+                      className="w-16 h-16 md:w-20 md:h-20 object-cover"
                     />
-                    <p className="flex flex-col gap-3">
-                      <span className="font-medium text-base">
-                        {order.items
-                          .map(
-                            (item) => `${item.product.name} x ${item.quantity}`
-                          )
-                          .join(", ")}
-                      </span>
-                      <span>Items: {order.items.length}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <p className="font-medium text-gray-800">
+                      {order.items.map(item => `${item.product.name} x ${item.quantity}`).join(", ")}
                     </p>
-                  </div>
-
-                  {/* Address */}
-                  <div>
-                    {order.address ? (
-                      <p>
-                        <span className="font-medium">{order.address.fullName}</span>
-                        <br />
-                        <span>{order.address.area}</span>
-                        <br />
-                        <span>{`${order.address.city}, ${order.address.state}`}</span>
-                        <br />
-                        <span>{order.address.phoneNumber}</span>
-                      </p>
-                    ) : (
-                      <p className="text-red-500">Address not available</p>
-                    )}
-                  </div>
-
-                  {/* Amount */}
-                  <p className="font-medium my-auto">
-                    {currency}
-                    {order.amount}
-                  </p>
-
-                  {/* Payment & Date */}
-                  <div className="flex flex-col gap-2 my-auto">
-                    <span>Method: COD</span>
-                    <span>Date: {new Date(order.date).toLocaleDateString()}</span>
-                    <span>Payment: Pending</span>
-                    <span>Status: {order.status || "Pending"}</span>
-                    {isCancelable(order.date) && (
-                      <button
-                        onClick={() => {
-                          setOrderToCancel(order._id);
-                          setShowCancelPopup(true);
-                        }}
-                        className="bg-red-500 text-white px-4 py-2 mt-3 hover:bg-red-600"
-                      >
-                        Cancel Order
-                      </button>
-                    )}
+                    <span className="text-gray-500 text-sm">Items: {order.items.length}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+
+                {/* Address */}
+                <div className="flex-1 text-gray-700 text-sm md:text-base">
+                  {order.address ? (
+                    <div className="flex flex-col gap-1">
+                      <span className="font-medium">{order.address.fullName}</span>
+                      <span>{order.address.area}</span>
+                      <span>{`${order.address.city}, ${order.address.state}`}</span>
+                      <span>{order.address.phoneNumber}</span>
+                    </div>
+                  ) : (
+                    <span className="text-red-500">Address not available</span>
+                  )}
+                </div>
+
+                {/* Amount */}
+                <div className="my-auto text-gray-800 font-medium">
+                  {currency}{order.amount}
+                </div>
+
+                {/* Payment & Status */}
+                <div className="flex flex-col gap-1 my-auto text-gray-600 text-sm md:text-base">
+                  <span>Method: COD</span>
+                  <span>Date: {new Date(order.date).toLocaleDateString()}</span>
+                  <span>Payment: Pending</span>
+                  <span>Status: {order.status || "Pending"}</span>
+
+                  {isCancelable(order.date) && (
+                    <button
+                      onClick={() => {
+                        setOrderToCancel(order._id);
+                        setShowCancelPopup(true);
+                      }}
+                      className="mt-2 px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
+                    >
+                      Cancel Order
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {orders.length === 0 && !loading && (
+              <p className="text-gray-500 text-center py-10">You have no orders yet.</p>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Cancel popup */}
       {showCancelPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-md shadow-md text-center">
-            <p className="text-lg font-medium mb-4">
-              Are you sure you want to cancel this order?
-            </p>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl shadow-lg text-center max-w-sm w-full">
+            <p className="text-lg font-medium mb-4">Are you sure you want to cancel this order?</p>
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => setShowCancelPopup(false)}
-                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                className="bg-gray-300 px-4 py-2 rounded-full hover:bg-gray-400 transition"
               >
                 No
               </button>
               <button
                 onClick={handleCancelOrder}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition"
               >
                 Yes
               </button>
@@ -175,6 +165,7 @@ const MyOrders = () => {
           </div>
         </div>
       )}
+
       <Footer />
     </>
   );
