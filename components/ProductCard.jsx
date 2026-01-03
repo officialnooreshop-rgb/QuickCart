@@ -4,7 +4,15 @@ import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 
 const ProductCard = ({ product }) => {
-  const { currency, router } = useAppContext();
+  const { currency, router, addToCart } = useAppContext(); // make sure addToCart exists
+
+  // Buy Now button handler
+// Buy Now button handler
+const handleBuyNow = (e) => {
+  e.stopPropagation(); // prevent parent onClick
+  addToCart(product._id); // pass only the product ID
+};
+
 
   return (
     <div
@@ -63,8 +71,11 @@ const ProductCard = ({ product }) => {
           {currency}
           {product.offerPrice}
         </p>
-        <button className="max-sm:hidden px-4 py-1.5 text-[#000000] border border-[#B8860B]/30 rounded-full text-xs font-medium hover:bg-[#B8860B]/10 transition">
-          Buy now
+        <button
+          onClick={handleBuyNow}
+          className="max-sm:hidden px-4 py-1.5 text-[#000000] border border-[#B8860B]/30 rounded-full text-xs font-medium hover:bg-[#B8860B]/10 transition"
+        >
+          Add to Cart
         </button>
       </div>
     </div>

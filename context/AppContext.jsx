@@ -62,34 +62,30 @@ export const AppContextProvider = (props) => {
         }
     }
 
-    const addToCart = async (itemId) => {
+const addToCart = async (itemId) => {
+  let cartData = structuredClone(cartItems);
+  if (cartData[itemId]) {
+    cartData[itemId] += 1;
+  } else {
+    cartData[itemId] = 1;
+  }
+  setCartItems(cartData);
 
-        let cartData = structuredClone(cartItems);
-        if (cartData[itemId]) {
-            cartData[itemId] += 1;
-        }
-        else {
-            cartData[itemId] = 1;
-        }
-        setCartItems(cartData);
-
-        if (user) {
-            try {
-                const token = await getToken();
-
-                await axios.post('/api/cart/update', { cartData }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                toast.success('Item added to cart');
-            } catch (error) {
-                toast.error(error.message);
-            }
-        }
-
-
+  if (user) {
+    try {
+      const token = await getToken();
+      await axios.post('/api/cart/update', { cartData }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Item added to cart');
+    } catch (error) {
+      toast.error(error.message);
     }
+  } else {
+    toast.success('Item added to cart'); // for guest users
+  }
+  return Promise.resolve(); // ensures async
+};
 
     const updateCartQuantity = async (itemId, quantity) => {
 
@@ -127,15 +123,17 @@ export const AppContextProvider = (props) => {
     }
 
     const getCartAmount = () => {
-        let totalAmount = 0;
-        for (const items in cartItems) {
-            let itemInfo = products.find((product) => product._id === items);
-            if (cartItems[items] > 0) {
-                totalAmount += itemInfo.offerPrice * cartItems[items];
-            }
-        }
-        return Math.floor(totalAmount * 100) / 100;
-    }
+       let totalAmount = 0;
+
+for (let items in cartItems) {
+  let itemInfo = products.find((product) => product._id === items);
+  if (itemInfo && cartItems[items] > 0) { // check if item exists
+    totalAmount += itemInfo.offerPrice * cartItems[items]; // use correct case
+  }
+}
+
+return Math.floor(totalAmount * 100) / 100;
+}
 
     useEffect(() => {
         fetchProductData()
