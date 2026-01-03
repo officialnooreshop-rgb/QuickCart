@@ -9,7 +9,6 @@ const HeaderSlider = () => {
       title: "Explore Our Exclusive Shalwar Kameez For Men!",
       offer: "Limited Time Offer 20% Off",
       buttonText1: "Buy now",
-      buttonText2: "Find more",
       imgSrc: assets.header_headphone_image,
     },
     {
@@ -17,7 +16,6 @@ const HeaderSlider = () => {
       title: "Discover The Shawl According To Your Style!",
       offer: "Hurry up only few lefts!",
       buttonText1: "Shop Now",
-      buttonText2: "Explore Deals",
       imgSrc: assets.header_playstation_image,
     },
     {
@@ -25,7 +23,6 @@ const HeaderSlider = () => {
       title: "Explore Our New Waist coats Collection!",
       offer: "New Arrivals",
       buttonText1: "Order Now",
-      buttonText2: "Learn More",
       imgSrc: assets.header_macbook_image,
     },
     
@@ -67,12 +64,6 @@ const HeaderSlider = () => {
                   {slide.buttonText1}
                 </button>
                 <button className="group flex items-center gap-2 text-[#1E2A38] font-medium hover:gap-3 transition-all">
-                  {slide.buttonText2}
-                  <Image
-                    src={assets.arrow_icon}
-                    alt="arrow"
-                    className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                  />
                 </button>
               </div>
             </div>
