@@ -9,6 +9,7 @@ const products = [
     title: "Men Shalwar Kameez",
     description:
       "Classic and comfortable men’s shalwar kameez, ideal for casual wear, office, and festive occasions.",
+    link: "/shalwar-kameez",
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ const products = [
     title: "Kids Shalwar Kameez",
     description:
       "Comfortable and stylish kids shalwar kameez made with soft, breathable fabric for everyday wear and special occasions.",
+    link: "/kids-shalwar-kameez",
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ const products = [
     title: "Women Shalwar Kameez",
     description:
       "Elegant and comfortable women shalwar kameez, perfect for everyday wear and special occasions.",
+    link: "/women-shalwar-kameez",
   },
 ];
 
@@ -39,7 +42,7 @@ const FeaturedProduct = () => {
 
       {/* PRODUCT GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16 mt-12 md:px-14 px-4">
-        {products.map(({ id, image, title, description }) => (
+        {products.map(({ id, image, title, description, link }) => (
           <div
             key={id}
             className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300"
@@ -59,7 +62,10 @@ const FeaturedProduct = () => {
               <p className="text-sm md:text-base text-gray-200 leading-snug">
                 {description}
               </p>
-              <button className="mt-2 flex items-center gap-2 bg-[#B8860B] px-5 py-2 rounded-full font-medium text-[#ffffff] shadow-md hover:scale-105 transition-transform duration-300 w-max">
+              <button
+                onClick={() => (window.location.href = link)}
+                className="mt-2 flex items-center gap-2 bg-[#B8860B] px-5 py-2 rounded-full font-medium text-[#ffffff] shadow-md hover:scale-105 transition-transform duration-300 w-max"
+              >
                 Buy now
                 <Image
                   src={assets.redirect_icon}

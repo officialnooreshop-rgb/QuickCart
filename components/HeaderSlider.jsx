@@ -39,6 +39,16 @@ const HeaderSlider = () => {
 
   const handleSlideChange = (index) => setCurrentSlide(index);
 
+  const handleSlideClick = (id) => {
+    if (id === 1) {
+      window.location.href = "/shalwar-kameez?page=1&category=Men%20Shalwar%20Kameez";
+    } else if (id === 2) {
+      window.location.href = "/shawl";
+    } else if (id === 3) {
+      window.location.href = "/waist-coat";
+    }
+  };
+
   return (
   <div className="relative w-full overflow-hidden mt-2"> {/* 2px gap from navbar */}
       {/* SLIDES */}
@@ -60,7 +70,10 @@ const HeaderSlider = () => {
                 {slide.title}
               </h1>
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mt-4 md:mt-6">
-                <button className="px-8 py-2 md:px-10 md:py-3 rounded-full bg-[#B8860B] text-[#1E2A38] font-semibold shadow-lg hover:scale-105 transition-transform">
+                <button 
+                  onClick={() => handleSlideClick(slide.id)}
+                  className="px-8 py-2 md:px-10 md:py-3 rounded-full bg-[#B8860B] text-[#1E2A38] font-semibold shadow-lg hover:scale-105 transition-transform"
+                >
                   {slide.buttonText1}
                 </button>
                 <button className="group flex items-center gap-2 text-[#1E2A38] font-medium hover:gap-3 transition-all">

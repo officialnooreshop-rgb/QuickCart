@@ -128,11 +128,12 @@ const AddProduct = () => {
               onChange={(e) => setCategory(e.target.value)}
               className="appearance-none w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4af37] bg-white cursor-pointer shadow-sm hover:shadow-md transition duration-200 pr-8"
             >
-              <option value="Earphone">Featured Products</option>
-              <option value="Headphone">Men Shalwar Kameez</option>
-              <option value="Watch">Women Shalwar Kameez</option>
-              <option value="Smartphone">Kids Shalwar Kameez</option>
-              <option value="Laptop">Waist Coat</option>
+              <option value="Featured Products">Featured Products</option>
+              <option value="Men Shalwar Kameez">Men Shalwar Kameez</option>
+              <option value="Women Shalwar Kameez">Women Shalwar Kameez</option>
+              <option value="Kids Shalwar Kameez">Kids Shalwar Kameez</option>
+              <option value="Waist Coat">Waist Coat</option>
+              <option value="Shawl">Shawls</option>
             </select>
             <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
               <svg
