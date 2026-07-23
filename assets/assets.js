@@ -50,9 +50,11 @@ import contact_us from "./Customer-Support.png";
 import vector_phone from "./Vector-Phone.png";
 import vector_email from "./Vector-Email.png";
 import message_icon from "./Vector-Message.svg";
-
+import setting_icon from "./Vector-Setting.png"
 
 export const assets = {
+  vector_email,
+  setting_icon,
   logo,
   search_icon,
   user_icon,

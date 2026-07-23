@@ -13,7 +13,7 @@ const CustomDropdown = ({ options, selected, setSelected }) => {
     <div className="relative w-44 md:w-48">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full bg-white border p-2 rounded-lg flex justify-between items-center shadow-sm hover:border-gray-400 transition"
+        className="flex w-full items-center justify-between rounded-xl border border-[#e7d4aa] bg-white/90 p-3 shadow-sm transition hover:border-[#b8860b]"
       >
         <span>{selected.label}</span>
         <svg
@@ -27,12 +27,12 @@ const CustomDropdown = ({ options, selected, setSelected }) => {
       </button>
 
       {open && (
-        <ul className="absolute z-10 w-full bg-white border rounded-lg mt-1 shadow-lg max-h-60 overflow-auto">
+        <ul className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded-xl border border-[#f2e1b8] bg-white shadow-lg">
           {options.map((option, idx) => (
             <li
               key={idx}
               onClick={() => { setSelected(option); setOpen(false); }}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="cursor-pointer px-4 py-3 text-sm hover:bg-[#fff8e8]"
             >
               {option.label}
             </li>
@@ -104,36 +104,40 @@ const AllProducts = () => {
     <>
       <Navbar />
 
-      <div className="flex flex-col items-start px-6 md:px-16 lg:px-32 pt-4 pb-20 space-y-6 w-full">
+      <div className="min-h-screen w-full bg-gradient-to-br from-[#fffdf8] via-gray-50 to-[#fff7e6] px-6 pb-20 pt-10 md:px-16 md:pt-14 lg:px-32">
 
         {/* Header */}
-        <p className="text-2xl md:text-3xl font-semibold text-[#1E2A38]">
-          All Products
-        </p>
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b8860b]">The Collection</p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1E2A38] md:text-4xl">All Products</h1>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-gray-500">Explore thoughtful pieces made for everyday comfort, celebration, and personal style.</p>
+          </div>
+        </div>
 
         {/* Mobile Search + Filters Button */}
         <div className="flex w-full gap-2 md:hidden">
           <input
             type="text"
             placeholder="Search products..."
-            className="border p-2 rounded-lg flex-1 focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
+            className="min-w-0 flex-1 rounded-xl border border-[#e7d4aa] bg-white/90 p-3 focus:outline-none focus:ring-2 focus:ring-[#b8860b]"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
           <button
             onClick={() => setShowMobileFilters(true)}
-            className="bg-[#fdb242] px-4 py-2 rounded-lg text-white font-medium"
+            className="rounded-xl bg-[#B8860B] px-4 py-2 font-semibold text-white shadow-sm"
           >
             Filters
           </button>
         </div>
 
         {/* Desktop Search + Filters */}
-        <div className="hidden md:flex flex-row gap-4 w-full items-center">
+        <div className="hidden w-full flex-row items-center gap-4 rounded-[1.5rem] border border-[#f2e1b8] bg-white/70 p-4 shadow-sm md:flex">
           <input
             type="text"
             placeholder="Search products..."
-            className="border p-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-[#fdb242]"
+            className="w-64 rounded-xl border border-[#e7d4aa] bg-white p-3 focus:outline-none focus:ring-2 focus:ring-[#b8860b]"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -172,7 +176,7 @@ const AllProducts = () => {
         {/* Mobile Filter Modal */}
         {showMobileFilters && (
           <div className="fixed inset-0 bg-black/40 z-20 flex justify-end">
-            <div className="bg-white w-3/4 p-6 overflow-auto h-full">
+            <div className="h-full w-3/4 overflow-auto border-l border-[#f2e1b8] bg-[#fffdf8] p-6 shadow-2xl">
               <button
                 onClick={() => setShowMobileFilters(false)}
                 className="mb-4 font-bold text-lg"
@@ -187,8 +191,8 @@ const AllProducts = () => {
               {[4, 3, 2, 1].map((r) => (
                 <button
                   key={r}
-                  className={`block w-full text-left mb-1 p-2 rounded-lg ${
-                    ratingFilter.value === r ? "bg-[#fdb242] text-white" : "bg-gray-100"
+                    className={`mb-1 block w-full rounded-xl p-3 text-left ${
+                      ratingFilter.value === r ? "bg-[#B8860B] text-white" : "border border-gray-200 bg-white"
                   }`}
                   onClick={() => setRatingFilter({ label: `${r} stars & up`, value: r })}
                 >
@@ -206,8 +210,8 @@ const AllProducts = () => {
               ].map((s) => (
                 <button
                   key={s.value}
-                  className={`block w-full text-left mb-1 p-2 rounded-lg ${
-                    sortBy.value === s.value ? "bg-[#fdb242] text-white" : "bg-gray-100"
+                    className={`mb-1 block w-full rounded-xl p-3 text-left ${
+                      sortBy.value === s.value ? "bg-[#B8860B] text-white" : "border border-gray-200 bg-white"
                   }`}
                   onClick={() => setSortBy(s)}
                 >
@@ -218,13 +222,13 @@ const AllProducts = () => {
               {/* Apply / Clear Buttons */}
               <div className="flex gap-2 mt-6">
                 <button
-                  className="flex-1 bg-[#fdb242] text-white py-2 rounded-lg"
+                  className="flex-1 rounded-xl bg-[#B8860B] py-3 font-semibold text-white"
                   onClick={() => setShowMobileFilters(false)}
                 >
                   Apply
                 </button>
                 <button
-                  className="flex-1 border py-2 rounded-lg"
+                  className="flex-1 rounded-xl border border-gray-300 bg-white py-3"
                   onClick={() => {
                     setCategoryFilter({ label: "All Categories", value: "" });
                     setRatingFilter({ label: "All Ratings", value: 0 });
@@ -239,15 +243,15 @@ const AllProducts = () => {
         )}
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full">
+        <div className="mt-10 grid w-full grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-7">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product, index) => (
-              <div key={index} className="transition-transform duration-300 hover:scale-105">
+              <div key={index} className="transition-transform duration-300 hover:-translate-y-1">
                 <ProductCard product={product} />
               </div>
             ))
           ) : (
-            <p className="text-gray-500 col-span-full">No products found.</p>
+            <div className="col-span-full rounded-[1.5rem] border border-dashed border-[#d9caa6] bg-white/70 p-12 text-center text-gray-500">No products found.</div>
           )}
         </div>
 

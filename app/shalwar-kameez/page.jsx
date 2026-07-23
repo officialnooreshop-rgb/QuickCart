@@ -51,10 +51,6 @@ const AllProducts = () => {
     (product) => product.category === "Men Shalwar Kameez"
   );
 
-  // Debugging logs
-  console.log("All products:", products);
-  console.log("Filtered Men Shalwar Kameez products:", menShalwarKameezProducts);
-
   // Search, filters, sort states
   const [search, setSearch] = useState("");
   const [ratingFilter, setRatingFilter] = useState({ label: "All Ratings", value: 0 });
@@ -112,12 +108,14 @@ const AllProducts = () => {
     <>
       <Navbar />
 
-      <div className="flex flex-col items-start px-6 md:px-16 lg:px-32 pt-4 pb-20 space-y-6 w-full">
+      <div className="min-h-screen w-full bg-gradient-to-br from-[#fffdf8] via-gray-50 to-[#fff7e6] px-6 pb-20 pt-10 md:px-16 md:pt-14 lg:px-32">
 
         {/* Header */}
-        <p className="text-2xl md:text-3xl font-semibold text-[#1E2A38]">
-          Men Shalwar Kameez 
-        </p>
+        <div className="mb-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b8860b]">Men's Collection</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1E2A38] md:text-4xl">Men Shalwar Kameez</h1>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-gray-500">Timeless cuts, comfortable fabrics, and refined looks for every occasion.</p>
+        </div>
 
         {/* Mobile Search + Filters Button */}
         <div className="flex w-full gap-2 md:hidden">
@@ -238,15 +236,15 @@ const AllProducts = () => {
         )}
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 w-full">
+        <div className="mt-10 grid w-full grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-7">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product, index) => (
-              <div key={index} className="transition-transform duration-300 hover:scale-105">
+              <div key={index} className="transition-transform duration-300 hover:-translate-y-1">
                 <ProductCard product={product} />
               </div>
             ))
           ) : (
-            <p className="text-gray-500 col-span-full">No products found.</p>
+            <div className="col-span-full rounded-[1.5rem] border border-dashed border-[#d9caa6] bg-white/70 p-12 text-center text-gray-500">No products found.</div>
           )}
         </div>
 

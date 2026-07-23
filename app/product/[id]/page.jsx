@@ -40,12 +40,15 @@ const Product = () => {
     return (
         <>
             <Navbar />
-            <div className="px-6 md:px-16 lg:px-32 pt-14 space-y-10">
+            <div className="min-h-screen bg-gradient-to-br from-[#fffdf8] via-gray-50 to-[#fff7e6] px-6 pb-10 pt-10 md:px-16 md:pt-14 lg:px-32">
+                <div className="mb-8 text-sm text-gray-500">
+                    Home <span className="mx-2 text-[#b8860b]">/</span> Product details
+                </div>
                 {/* Product Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div className="grid grid-cols-1 gap-10 rounded-[2rem] border border-[#f2e1b8] bg-white/80 p-5 shadow-[0_16px_45px_rgba(184,134,11,0.1)] backdrop-blur md:grid-cols-2 md:gap-16 md:p-8">
                     {/* Images */}
-                    <div className="px-5 lg:px-16 xl:px-20">
-                        <div className="rounded-2xl overflow-hidden bg-gray-50 shadow-md mb-4">
+                    <div className="px-0 lg:px-5 xl:px-10">
+                        <div className="mb-4 overflow-hidden rounded-[1.5rem] border border-[#f2e1b8] bg-gradient-to-br from-[#fff8e8] to-gray-100 shadow-md">
                             <Image
                                 src={mainImage || productData.image[0]}
                                 alt={productData.name}
@@ -54,12 +57,12 @@ const Product = () => {
                                 height={720}
                             />
                         </div>
-                        <div className="grid grid-cols-4 gap-4">
+                        <div className="grid grid-cols-4 gap-3">
                             {productData.image.map((img, idx) => (
                                 <div
                                     key={idx}
                                     onClick={() => setMainImage(img)}
-                                    className="cursor-pointer rounded-xl overflow-hidden bg-gray-100/20 backdrop-blur-sm hover:scale-105 transition-transform shadow-sm"
+                                    className={`cursor-pointer overflow-hidden rounded-xl border bg-gray-100/20 shadow-sm transition-transform hover:scale-105 ${mainImage === img ? "border-[#b8860b] ring-2 ring-[#b8860b]/20" : "border-transparent"}`}
                                 >
                                     <Image
                                         src={img}
@@ -74,8 +77,9 @@ const Product = () => {
                     </div>
 
                     {/* Info */}
-                    <div className="flex flex-col">
-                        <h1 className="text-3xl font-semibold text-gray-800/90 mb-4">
+                    <div className="flex flex-col justify-center">
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#b8860b]">Noore Collection</p>
+                        <h1 className="mb-4 text-3xl font-bold tracking-tight text-[#1E2A38] md:text-4xl">
                             {productData.name}
                         </h1>
 
@@ -90,19 +94,21 @@ const Product = () => {
                             <p className="text-gray-600">(4.5)</p>
                         </div>
 
-                        <p className="text-gray-600 mt-3">{productData.description}</p>
+                        <p className="mt-4 max-w-xl leading-relaxed text-gray-600">{productData.description}</p>
 
-                        <p className="text-3xl font-medium mt-6">
+                        <div className="mt-7 flex items-end gap-3">
+                            <p className="text-4xl font-bold text-[#1E2A38]">
                             Rs.{productData.offerPrice}
+                            </p>
                             <span className="text-base font-normal text-gray-500 line-through ml-2">
                                 Rs.{productData.price}
                             </span>
-                        </p>
+                        </div>
 
                         <hr className="my-6 border-gray-300" />
 
-                        <div className="overflow-x-auto">
-                            <table className="table-auto w-full">
+                        <div className="overflow-x-auto rounded-2xl bg-[#fff8e8] p-4">
+                            <table className="w-full table-auto">
                                 <tbody>
                                     <tr>
                                         <td className="text-gray-600 font-medium">Brand</td>
@@ -115,13 +121,13 @@ const Product = () => {
                         <div className="flex items-center mt-10 gap-4">
                             <button
                                 onClick={handleAddToCart}
-                                className="w-full py-3.5 bg-gray-100 text-gray-800/80 hover:bg-gray-200 rounded-lg transition"
+                                className="w-full rounded-xl border border-[#e7d4aa] bg-white py-3.5 font-semibold text-gray-800 transition hover:border-[#b8860b] hover:bg-[#fff8e8]"
                             >
                                 Add to Cart
                             </button>
                             <button
                                 onClick={handleBuyNow}
-                                className="w-full py-3.5 bg-[#fdb242] text-white hover:bg-[#f2a832] rounded-lg transition"
+                                className="w-full rounded-xl bg-[#B8860B] py-3.5 font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#A7780A]"
                             >
                                 Buy now
                             </button>
@@ -131,8 +137,8 @@ const Product = () => {
 
                 {/* Featured Products */}
                 <div className="flex flex-col items-center">
-                    <div className="flex flex-col items-center mb-4 mt-16">
-                        <p className="text-3xl font-semibold">
+                    <div className="mb-4 mt-16 flex flex-col items-center">
+                        <p className="text-3xl font-bold text-[#1E2A38]">
                             Featured <span className="text-[#fdb242]">Products</span>
                         </p>
                         <div className="w-28 h-0.5 bg-[#fdb242] mt-2 rounded-full"></div>
@@ -142,7 +148,7 @@ const Product = () => {
                             <ProductCard key={index} product={product} />
                         ))}
                     </div>
-                    <button className="px-8 py-2 mb-16 border rounded-full text-gray-500/70 hover:bg-slate-50/90 transition">
+                    <button onClick={() => router.push("/all-products")} className="mb-16 rounded-full border border-[#e7d4aa] bg-white px-8 py-3 font-semibold text-gray-600 shadow-sm transition hover:border-[#b8860b] hover:bg-[#fff8e8]">
                         See more
                     </button>
                 </div>

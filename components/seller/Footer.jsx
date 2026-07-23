@@ -11,7 +11,7 @@ const Footer = () => {
           <Image className="hidden md:block w-16 h-16" src={assets.logo} alt="logo" />
           <div className="hidden md:block h-6 w-px bg-gray-400/50"></div>
           <p className="text-center text-xs md:text-sm text-gray-500">
-            Copyright 2025 © greatstack.dev All Rights Reserved
+            Copyright 2025 © Noore.dev All Rights Reserved
           </p>
         </div>
 

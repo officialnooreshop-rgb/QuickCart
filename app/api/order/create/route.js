@@ -22,6 +22,11 @@ export async function POST(request) {
       });
     }
 
+    const totalItems = items.reduce((sum, item) => sum + (Number(item.quantity) > 0 ? Number(item.quantity) : 0), 0);
+    if (totalItems > 50) {
+      return NextResponse.json({ success: false, message: "You can place a maximum of 50 items per order" }, { status: 400 });
+    }
+
     await connectDB();
     let subtotal = 0;
     const orderItems = [];

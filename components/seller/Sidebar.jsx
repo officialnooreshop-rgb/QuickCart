@@ -12,8 +12,8 @@ const SideBar = () => {
     { name: 'Product List', path: '/seller/product-list', icon: assets.product_list_icon },
     { name: 'Orders', path: '/seller/orders', icon: assets.order_icon },
     { name: 'Messages', path: '/seller/messages', icon: assets.message_icon },
-    { name: 'Emails', path: '/seller/emails', icon: assets.message_icon },
-    { name: 'Settings', path: '/seller/settings', icon: null },
+    { name: 'Subscriber List', path: '/seller/emails', icon: assets.vector_email },
+    { name: 'Settings', path: '/seller/settings', icon: assets.setting_icon },
   ];
 
   return (

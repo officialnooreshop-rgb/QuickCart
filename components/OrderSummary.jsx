@@ -44,6 +44,7 @@ const OrderSummary = () => {
   const taxableAmount = subtotal - discount;
   const tax = Math.floor(taxableAmount * (Number(settings.taxRate || 0) / 100));
   const total = taxableAmount + Number(settings.shippingFee || 0) + tax;
+  const totalItems = Object.values(cartItems).reduce((sum, quantity) => sum + (Number(quantity) > 0 ? Number(quantity) : 0), 0);
 
   const applyPromoCode = () => {
     const normalizedCode = promoCode.trim().toUpperCase();
@@ -65,6 +66,8 @@ const OrderSummary = () => {
   const createOrder = async () => {
     try {
       if (!selectedAddress) return toast.error("Please select a shipping address");
+
+      if (totalItems > 50) return toast.error("You can place a maximum of 50 items per order");
 
       let cartItemsArray = Object.keys(cartItems)
         .map((key) => ({ productId: key, quantity: cartItems[key] }))
@@ -151,15 +154,15 @@ const OrderSummary = () => {
       {/* Promo Code */}
       <div className="mt-6 space-y-2">
         <label className="block text-gray-600 font-medium uppercase text-sm">Promo Code</label>
-        <div className="flex gap-3">
+          <div className="flex w-full min-w-0 flex-col gap-3 sm:flex-row">
           <input
             type="text"
             value={promoCode}
             onChange={(event) => setPromoCode(event.target.value)}
             placeholder="Enter promo code"
-            className="flex-1 rounded-xl border border-[#e7d4aa] bg-white/80 px-4 py-3 text-gray-700 outline-none focus:ring-2 focus:ring-[#B8860B]"
+              className="min-w-0 w-full flex-1 rounded-xl border border-[#e7d4aa] bg-white/80 px-4 py-3 text-gray-700 outline-none focus:ring-2 focus:ring-[#B8860B]"
           />
-          <button type="button" onClick={applyPromoCode} className="rounded-xl bg-[#B8860B] px-6 py-3 font-medium text-white transition hover:bg-[#A7780A]">
+            <button type="button" onClick={applyPromoCode} className="w-full shrink-0 rounded-xl bg-[#B8860B] px-6 py-3 font-medium text-white transition hover:bg-[#A7780A] sm:w-auto">
             Apply
           </button>
         </div>
