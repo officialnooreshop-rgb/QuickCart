@@ -76,11 +76,11 @@ const MyOrders = () => {
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="flex flex-col md:flex-row justify-between p-6 rounded-2xl bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 gap-4"
+                className="flex flex-col lg:flex-row justify-between gap-5 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 {/* Items */}
-                <div className="flex-1 flex gap-4 items-start md:items-center">
-                  <div className="flex-shrink-0 rounded-xl overflow-hidden bg-gray-100 p-2">
+                <div className="flex flex-1 gap-4 items-start">
+                  <div className="flex-shrink-0 rounded-2xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 p-2">
                     <Image
                       src={assets.box_icon}
                       alt="order_icon"
@@ -88,7 +88,7 @@ const MyOrders = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p className="font-medium text-gray-800">
+                    <p className="font-semibold text-gray-800">
                       {order.items.map(item => `${item.product.name} x ${item.quantity}`).join(", ")}
                     </p>
                     <span className="text-gray-500 text-sm">Items: {order.items.length}</span>
@@ -98,11 +98,14 @@ const MyOrders = () => {
                 {/* Address */}
                 <div className="flex-1 text-gray-700 text-sm md:text-base">
                   {order.address ? (
-                    <div className="flex flex-col gap-1">
-                      <span className="font-medium">{order.address.fullName}</span>
-                      <span>{order.address.area}</span>
-                      <span>{`${order.address.city}, ${order.address.state}`}</span>
-                      <span>{order.address.phoneNumber}</span>
+                    <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
+                      <p className="font-semibold text-gray-800">Delivery Address</p>
+                      <div className="mt-1 flex flex-col gap-1">
+                        <span>{order.address.fullName}</span>
+                        <span>{order.address.area}</span>
+                        <span>{`${order.address.city}, ${order.address.state}`}</span>
+                        <span>{order.address.phoneNumber}</span>
+                      </div>
                     </div>
                   ) : (
                     <span className="text-red-500">Address not available</span>
@@ -110,16 +113,27 @@ const MyOrders = () => {
                 </div>
 
                 {/* Amount */}
-                <div className="my-auto text-gray-800 font-medium">
+                <div className="my-auto text-gray-800 font-semibold text-lg">
                   {currency}{order.amount}
                 </div>
 
-                {/* Payment & Status */}
-                <div className="flex flex-col gap-1 my-auto text-gray-600 text-sm md:text-base">
-                  <span>Method: COD</span>
-                  <span>Date: {new Date(order.date).toLocaleDateString()}</span>
-                  <span>Payment: Pending</span>
-                  <span>Status: {order.status || "Pending"}</span>
+                {/* Delivery Status */}
+                <div className="min-w-[220px] rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-3 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500">Delivery</span>
+                    <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700">
+                      COD
+                    </span>
+                  </div>
+
+                  <div className="mt-2 text-sm text-gray-600">
+                    <p className="font-medium text-gray-800">{new Date(order.date).toLocaleDateString()}</p>
+                    <p className="mt-1">Current status</p>
+                  </div>
+
+                  <div className="mt-3 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700">
+                    {order.status || "Pending"}
+                  </div>
 
                   {isCancelable(order.date) && (
                     <button
@@ -127,7 +141,7 @@ const MyOrders = () => {
                         setOrderToCancel(order._id);
                         setShowCancelPopup(true);
                       }}
-                      className="mt-2 px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
+                      className="mt-3 w-full rounded-full bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
                     >
                       Cancel Order
                     </button>

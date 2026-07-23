@@ -13,6 +13,7 @@ const Orders = () => {
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState(null);
 
   const fetchSellerOrders = async () => {
     try {
@@ -30,6 +31,27 @@ const Orders = () => {
       toast.error(error.message);
     }
   }
+
+  const updateOrderStatus = async (orderId, status) => {
+    try {
+      setUpdatingId(orderId);
+      const token = await getToken();
+      const { data } = await axios.patch('/api/order/status', { orderId, status }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (data.success) {
+        setOrders(prev => prev.map(order => order._id === orderId ? { ...order, status } : order));
+        toast.success('Order status updated');
+      } else {
+        toast.error(data.message || 'Failed to update status');
+      }
+    } catch (error) {
+      toast.error(error.message || 'Failed to update status');
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   useEffect(() => {
     if (user) fetchSellerOrders();
@@ -82,11 +104,38 @@ const Orders = () => {
                   {currency}{order.amount}
                 </p>
 
-                {/* Payment & Date */}
-                <div className="flex flex-col text-gray-700 text-sm my-auto">
-                  <span>Method: COD</span>
-                  <span>Date: {new Date(order.date).toLocaleDateString()}</span>
-                  <span>Payment: Pending</span>
+                {/* Order Status */}
+                <div className="flex flex-col my-auto gap-2 min-w-[220px] rounded-xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-3 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Delivery</span>
+                    <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700">
+                      COD
+                    </span>
+                  </div>
+
+                  <div className="text-sm text-gray-600">
+                    <p className="font-medium text-gray-800">{new Date(order.date).toLocaleDateString()}</p>
+                    <p className="mt-1">Order progress</p>
+                  </div>
+
+                  <div className="mt-1">
+                    <label className="mb-1 block text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500">
+                      Status
+                    </label>
+                    <select
+                      value={order.status || 'Pending'}
+                      onChange={(e) => updateOrderStatus(order._id, e.target.value)}
+                      disabled={updatingId === order._id}
+                      className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Packed">Packed</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Out for Delivery">Out for Delivery</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             ))}
