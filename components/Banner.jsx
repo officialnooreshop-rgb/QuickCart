@@ -1,6 +1,9 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Banner = () => {
+  const router = useRouter();
+
   return (
     <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#fff8e8] via-[#fffdf8] to-[#f6ead0] px-6 py-10 shadow-[0_12px_40px_rgba(184,134,11,0.12)] md:px-10 md:py-16">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(184,134,11,0.12),_transparent_40%)]" />
@@ -41,7 +44,7 @@ const Banner = () => {
             ))}
           </div>
 
-          <button className="mt-4 w-full rounded-full bg-[#B8860B] px-5 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.01]">
+          <button onClick={() => router.push("/all-products")} className="mt-4 w-full rounded-full bg-[#B8860B] px-5 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.01]">
             Shop Collection
           </button>
         </div>

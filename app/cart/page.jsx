@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context/AppContext";
 
 const Cart = () => {
-  const { products, router, cartItems, addToCart, updateCartQuantity, getCartCount } = useAppContext();
+  const { currency, products, router, cartItems, addToCart, updateCartQuantity, getCartCount } = useAppContext();
 
   return (
     <>
@@ -56,7 +56,7 @@ const Cart = () => {
                   </div>
 
                   {/* Price */}
-                  <p className="text-gray-600 font-medium md:w-20">${product.offerPrice}</p>
+                  <p className="text-gray-600 font-medium md:w-20">{currency}{product.offerPrice}</p>
 
                   {/* Quantity */}
                   <div className="flex items-center gap-2 border rounded-full px-3 py-1 bg-white shadow-sm">
@@ -75,7 +75,7 @@ const Cart = () => {
                   </div>
 
                   {/* Subtotal */}
-                  <p className="text-gray-600 font-medium md:w-24 text-right">${(product.offerPrice * cartItems[itemId]).toFixed(2)}</p>
+                  <p className="text-gray-600 font-medium md:w-24 text-right">{currency}{(product.offerPrice * cartItems[itemId]).toFixed(2)}</p>
                 </div>
               );
             })}

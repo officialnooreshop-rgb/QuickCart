@@ -2,6 +2,7 @@ import Order from "@/Models/Order";
 import Product from "@/Models/Product";
 import User from "@/Models/User";
 import StoreSettings from "@/Models/StoreSettings";
+import connectDB from "@/config/db";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
