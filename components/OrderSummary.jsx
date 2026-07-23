@@ -8,6 +8,9 @@ const OrderSummary = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userAddresses, setUserAddresses] = useState([]);
+  const [settings, setSettings] = useState({ shippingFee: 0, taxRate: 2, promoCodes: [] });
+  const [promoCode, setPromoCode] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState(null);
 
   const fetchUserAddresses = async () => {
     try {
@@ -28,6 +31,32 @@ const OrderSummary = () => {
     if (user) fetchUserAddresses();
   }, [user]);
 
+  useEffect(() => {
+    axios.get("/api/store-settings")
+      .then(({ data }) => {
+        if (data.success) setSettings(data.settings);
+      })
+      .catch(() => {});
+  }, []);
+
+  const subtotal = getCartAmount();
+  const discount = appliedPromo ? Math.floor(subtotal * (appliedPromo.discountPercent / 100)) : 0;
+  const taxableAmount = subtotal - discount;
+  const tax = Math.floor(taxableAmount * (Number(settings.taxRate || 0) / 100));
+  const total = taxableAmount + Number(settings.shippingFee || 0) + tax;
+
+  const applyPromoCode = () => {
+    const normalizedCode = promoCode.trim().toUpperCase();
+    const match = settings.promoCodes?.find((promo) => promo.active && promo.code === normalizedCode);
+    if (!match) {
+      setAppliedPromo(null);
+      toast.error("That promo code is not valid");
+      return;
+    }
+    setAppliedPromo(match);
+    toast.success(`${match.discountPercent}% discount applied`);
+  };
+
   const handleAddressSelect = (address) => {
     setSelectedAddress(address);
     setIsDropdownOpen(false);
@@ -46,7 +75,7 @@ const OrderSummary = () => {
       const token = await getToken();
       const { data } = await axios.post(
         "/api/order/create",
-        { address: selectedAddress, items: cartItemsArray },
+        { address: selectedAddress, items: cartItemsArray, promoCode: appliedPromo?.code || "" },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -54,7 +83,23 @@ const OrderSummary = () => {
         toast.success(data.message);
         setCartItems({});
         router.push("/order-placed");
-      } else toast.error(data.message);
+      } else {
+        if (data.unavailableProductIds?.length) {
+          const unavailable = new Set(data.unavailableProductIds);
+          const availableCartItems = Object.fromEntries(
+            Object.entries(cartItems).filter(([productId]) => !unavailable.has(productId))
+          );
+
+          setCartItems(availableCartItems);
+          await axios.post(
+            "/api/cart/update",
+            { cartData: availableCartItems },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+        }
+
+        toast.error(data.message);
+      }
     } catch (error) {
       toast.error(error.message);
     }
@@ -109,13 +154,16 @@ const OrderSummary = () => {
         <div className="flex gap-3">
           <input
             type="text"
+            value={promoCode}
+            onChange={(event) => setPromoCode(event.target.value)}
             placeholder="Enter promo code"
             className="flex-1 rounded-xl border border-[#e7d4aa] bg-white/80 px-4 py-3 text-gray-700 outline-none focus:ring-2 focus:ring-[#B8860B]"
           />
-          <button className="rounded-xl bg-[#B8860B] px-6 py-3 font-medium text-white transition hover:bg-[#A7780A]">
+          <button type="button" onClick={applyPromoCode} className="rounded-xl bg-[#B8860B] px-6 py-3 font-medium text-white transition hover:bg-[#A7780A]">
             Apply
           </button>
         </div>
+        {appliedPromo && <p className="text-sm font-medium text-emerald-700">{appliedPromo.code} applied: {appliedPromo.discountPercent}% off</p>}
       </div>
 
       <hr className="border-gray-300/40 my-6" />
@@ -124,19 +172,20 @@ const OrderSummary = () => {
       <div className="space-y-3">
         <div className="flex justify-between text-gray-600 font-medium">
           <span>Items ({getCartCount()})</span>
-          <span>{currency}{getCartAmount()}</span>
+          <span>{currency}{subtotal}</span>
         </div>
         <div className="flex justify-between text-gray-600 font-medium">
           <span>Shipping Fee</span>
-          <span className="text-gray-800 font-semibold">Free</span>
+          <span className="text-gray-800 font-semibold">{settings.shippingFee > 0 ? `${currency}${settings.shippingFee}` : "Free"}</span>
         </div>
         <div className="flex justify-between text-gray-600 font-medium">
-          <span>Tax (2%)</span>
-          <span className="text-gray-800 font-semibold">{currency}{Math.floor(getCartAmount() * 0.02)}</span>
+          <span>Tax ({settings.taxRate}%)</span>
+          <span className="text-gray-800 font-semibold">{currency}{tax}</span>
         </div>
+        {discount > 0 && <div className="flex justify-between font-medium text-emerald-700"><span>Promo discount</span><span>-{currency}{discount}</span></div>}
         <div className="flex justify-between font-semibold text-lg border-t border-gray-300 pt-3">
           <span>Total</span>
-          <span>{currency}{getCartAmount() + Math.floor(getCartAmount() * 0.02)}</span>
+          <span>{currency}{total}</span>
         </div>
       </div>
 

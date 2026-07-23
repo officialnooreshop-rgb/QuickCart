@@ -19,7 +19,7 @@ export async function PATCH(request) {
       return NextResponse.json({ success: false, message: 'Order ID and status are required' });
     }
 
-    const validStatuses = ['Pending', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered'];
+    const validStatuses = ['Pending', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled'];
     if (!validStatuses.includes(status)) {
       return NextResponse.json({ success: false, message: 'Invalid status' });
     }

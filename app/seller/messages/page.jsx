@@ -50,45 +50,50 @@ setMessages(
   }, [isSignedIn, user, router]);
 
   return (
-    <div className="min-h-screen bg-[#ffffff] flex flex-col">
-      <main className="p-4 md:p-8 max-w-7xl mx-auto w-full">
-        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-          Messages
-        </h1>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#fffdf8] via-gray-50 to-[#fff7e6]">
+      <main className="mx-auto w-full max-w-7xl p-4 md:p-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b8860b]">Customer Inbox</p>
+            <h1 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">Messages</h1>
+            <p className="mt-2 text-sm text-gray-500">Stay close to the people shopping your collection.</p>
+          </div>
+          <div className="w-fit rounded-2xl border border-[#f2e1b8] bg-white px-5 py-3 shadow-sm">
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-500">Total messages</p>
+            <p className="mt-1 text-2xl font-bold text-[#1E2A38]">{messages.length}</p>
+          </div>
+        </div>
 
         {loading ? (
-          <p className="text-gray-700">Loading messages...</p>
+          <div className="rounded-[1.5rem] border border-[#f2e1b8] bg-white p-8 text-center text-gray-600 shadow-sm">Loading messages...</div>
         ) : messages.length > 0 ? (
           <ul className="space-y-4 md:space-y-6">
             {messages.map((msg) => (
               <li
                 key={msg._id}
-                className="p-4 md:p-6 border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition transform hover:-translate-y-1 bg-white"
+                className="group rounded-[1.5rem] border border-[#f2e1b8] bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(184,134,11,0.12)] md:p-6"
               >
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
-                  <p className="font-semibold text-gray-800 text-sm md:text-base">
-                    {msg.name}
-                  </p>
-                  <span className="text-xs md:text-sm text-gray-500 mt-1 md:mt-0">
+                <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#fff2cf] text-lg text-[#b8860b]">✉</div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-800 md:text-base">{msg.name}</p>
+                      <p className="text-xs text-gray-500">{msg.email}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-gray-500 md:text-sm">
                     {new Date(msg.createdAt).toLocaleString()}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2 text-gray-700 text-xs md:text-sm">
-                  <p>
-                    <strong>Email:</strong> {msg.email}
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> {msg.phoneNumber}
-                  </p>
-                  <p className="md:col-span-3">
-                    <strong>Message:</strong> {msg.message}
-                  </p>
+                <div className="grid gap-3 text-sm text-gray-700 md:grid-cols-3">
+                  <p className="rounded-xl bg-gray-50 px-3 py-2"><span className="text-xs text-gray-500">Phone</span><br />{msg.phoneNumber}</p>
+                  <p className="min-w-0 whitespace-normal break-words rounded-xl bg-gray-50 px-3 py-2 md:col-span-2"><span className="text-xs text-gray-500">Message</span><br />{msg.message}</p>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-700">No messages found.</p>
+          <div className="rounded-[1.5rem] border border-dashed border-gray-300 bg-white p-10 text-center text-gray-600">No messages found.</div>
         )}
       </main>
 

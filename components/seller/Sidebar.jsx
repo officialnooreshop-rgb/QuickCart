@@ -13,6 +13,7 @@ const SideBar = () => {
     { name: 'Orders', path: '/seller/orders', icon: assets.order_icon },
     { name: 'Messages', path: '/seller/messages', icon: assets.message_icon },
     { name: 'Emails', path: '/seller/emails', icon: assets.message_icon },
+    { name: 'Settings', path: '/seller/settings', icon: null },
   ];
 
   return (
@@ -38,6 +39,7 @@ const SideBar = () => {
                   className="w-7 h-7 transition-transform hover:scale-110"
                 />
               )}
+              {!item.icon && <span className="flex h-7 w-7 items-center justify-center text-xl text-[#b8860b]">⚙</span>}
               <p className="md:block hidden text-gray-800 font-medium select-none">
                 {item.name}
               </p>

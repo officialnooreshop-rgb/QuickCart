@@ -22,7 +22,7 @@ const Orders = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (data.success) {
-        setOrders(data.orders);
+        setOrders([...data.orders].sort((first, second) => new Date(second.date) - new Date(first.date)));
         setLoading(false);
       } else {
         toast.error(data.message);
@@ -58,17 +58,27 @@ const Orders = () => {
   }, [user]);
 
   return (
-    <div className="flex-1 min-h-screen flex flex-col justify-between bg-gray-50">
+    <div className="flex min-h-screen flex-1 flex-col justify-between bg-gradient-to-br from-[#fffdf8] via-gray-50 to-[#fff7e6]">
       {loading ? (
         <Loading />
       ) : (
-        <div className="md:p-10 p-4 space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Orders</h2>
-          <div className="max-w-5xl space-y-4">
+        <div className="space-y-6 p-4 md:p-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#b8860b]">Store Operations</p>
+              <h2 className="mt-2 text-3xl font-bold text-gray-900">Orders</h2>
+              <p className="mt-2 text-sm text-gray-500">Manage fulfillment from one focused view.</p>
+            </div>
+            <div className="w-fit rounded-2xl border border-[#f2e1b8] bg-white px-5 py-3 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-gray-500">Total orders</p>
+              <p className="mt-1 text-2xl font-bold text-[#1E2A38]">{orders.length}</p>
+            </div>
+          </div>
+          <div className="max-w-6xl space-y-4">
             {orders.map((order, index) => (
               <div
                 key={index}
-                className="flex flex-col md:flex-row gap-5 justify-between p-5 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-lg transition"
+                className="flex flex-col gap-5 rounded-[1.5rem] border border-[#f2e1b8] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(184,134,11,0.12)] md:flex-row md:justify-between"
               >
                 {/* Items */}
                 <div className="flex-1 flex gap-4 max-w-80">
@@ -79,7 +89,7 @@ const Orders = () => {
                   />
                   <div className="flex flex-col gap-1">
                     <span className="font-medium text-gray-800">
-                      {order.items.map(item => `${item.product.name} x ${item.quantity}`).join(", ")}
+                      {order.items.map(item => `${item.product?.name || "Product unavailable"} x ${item.quantity}`).join(", ")}
                     </span>
                     <span className="text-gray-500">Items: {order.items.length}</span>
                   </div>
