@@ -11,7 +11,7 @@ const Navbar = () => {
   const { openSignIn } = useClerk();
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 transition-all">
+    <nav className="sticky top-0 z-50 border-b border-[#f2e1b8] bg-[#fffdf8]/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex items-center justify-between px-6 md:px-16 lg:px-32 py-3 transition-all">
       
       {/* LOGO */}
       <Image
@@ -35,7 +35,7 @@ const Navbar = () => {
                 ? "/about-us"
                 : "/contact-us"
             }
-            className="relative group hover:text-[#B8860B] transition-colors"
+            className="relative group hover:text-[#B8860B] transition-colors font-semibold"
           >
             {link}
             <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-[#B8860B] transition-all duration-300 group-hover:w-full"></span>
@@ -45,7 +45,7 @@ const Navbar = () => {
         {isSeller && (
           <button
             onClick={() => router.push("/seller")}
-            className="text-xs border border-grey-600 text-[#1E2A38] px-4 py-1.5 rounded-full hover:bg-[#B8860B]/10 transition"
+            className="text-xs border border-[#B8860B]/30 text-[#1E2A38] px-4 py-1.5 rounded-full bg-[#fff7e6] hover:bg-[#B8860B]/10 transition"
           >
             Seller Dashboard
           </button>

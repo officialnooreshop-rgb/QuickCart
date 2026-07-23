@@ -1,25 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const NewsLetter = () => {
-  return (
-    <div className="mt-10 flex flex-col items-center justify-center text-center space-y-6 px-4 sm:px-8 py-12 bg-white/70 backdrop-blur-md rounded-3xl shadow-lg max-w-md mx-auto">
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1E2A38]">
-        Subscribe now to our latest deals!
-      </h1>
-      <p className="text-sm sm:text-base text-gray-700 max-w-xs sm:max-w-sm">
-        Stay updated on the hottest offers and exclusive discounts by subscribing today!
-      </p>
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-      {/* Responsive input + button */}
-      <div className="flex flex-col sm:flex-row w-full sm:max-w-md gap-3">
-        <input
-          type="email"
-          placeholder="Enter your email"
-          className="flex-1 px-4 py-3 rounded-full border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#B8860B] focus:border-transparent"
-        />
-        <button className="w-full sm:w-auto px-6 py-3 bg-[#B8860B] text-white font-medium rounded-full hover:bg-[#A7780A] transition-colors duration-300">
-          Subscribe
-        </button>
+  const handleSubscribe = async () => {
+    if (!email) {
+      toast.error("Please enter your email");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const { data } = await axios.post('/api/subscriptions', { email });
+      if (data.success) {
+        toast.success(data.message || 'Subscribed successfully');
+        setEmail("");
+      } else {
+        toast.error(data.message || 'Unable to subscribe');
+      }
+    } catch (error) {
+      toast.error(error.message || 'Unable to subscribe');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-[2rem] border border-[#f2e1b8] bg-gradient-to-br from-[#fff8e8] via-[#fffdf8] to-[#f6ead0] px-5 py-10 shadow-[0_18px_45px_rgba(184,134,11,0.16)] sm:px-8 md:px-10">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,_rgba(184,134,11,0.16),_transparent_40%)]" />
+      <div className="relative flex flex-col items-center justify-center text-center space-y-5">
+        <div className="rounded-full border border-[#b8860b]/20 bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#b8860b]">
+          Stay in the Loop
+        </div>
+        <h1 className="text-xl font-bold text-[#1E2A38] sm:text-2xl md:text-3xl">
+          Subscribe now to our latest deals!
+        </h1>
+        <p className="max-w-lg text-sm leading-relaxed text-gray-700 sm:text-base">
+          Be the first to know about fresh arrivals, exclusive offers, and styling inspiration for your next favorite outfit.
+        </p>
+
+        <div className="flex w-full flex-col gap-3 sm:max-w-xl sm:flex-row">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="flex-1 rounded-full border border-[#e7d4aa] bg-white/90 px-4 py-3 text-gray-900 placeholder-gray-500 shadow-sm focus:border-[#b8860b] focus:outline-none focus:ring-2 focus:ring-[#b8860b]/20"
+          />
+          <button
+            onClick={handleSubscribe}
+            disabled={submitting}
+            className="w-full rounded-full bg-[#B8860B] px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#a7780a] disabled:opacity-70 sm:w-auto"
+          >
+            {submitting ? 'Subscribing...' : 'Subscribe'}
+          </button>
+        </div>
       </div>
 
       <style jsx>{`

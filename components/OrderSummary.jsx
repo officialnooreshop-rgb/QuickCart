@@ -61,9 +61,9 @@ const OrderSummary = () => {
   };
 
   return (
-    <div className="w-full md:w-96 p-6 bg-white/50 backdrop-blur-md rounded-2xl shadow-xl">
-      <h2 className="text-2xl md:text-3xl font-semibold text-[#1E2A38] mb-4">Order Summary</h2>
-      <hr className="border-gray-300/40 my-4" />
+    <div className="w-full rounded-[2rem] border border-[#f2e1b8] bg-gradient-to-br from-[#fffdf8] via-[#fff8e8] to-[#f7ebd0] p-6 shadow-[0_16px_45px_rgba(184,134,11,0.12)] md:w-96">
+      <h2 className="mb-4 text-2xl font-semibold text-[#1E2A38] md:text-3xl">Order Summary</h2>
+      <hr className="my-4 border-gray-300/40" />
 
       {/* Address Section */}
       <div className="space-y-4">
@@ -71,7 +71,7 @@ const OrderSummary = () => {
         <div className="relative w-full">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-full px-4 py-3 text-left bg-white/60 backdrop-blur-sm rounded-xl border border-gray-300 focus:outline-none flex justify-between items-center hover:border-[#B8860B] transition"
+            className="flex w-full items-center justify-between rounded-xl border border-[#e7d4aa] bg-white/80 px-4 py-3 text-left transition hover:border-[#B8860B] focus:outline-none"
           >
             {selectedAddress
               ? `${selectedAddress.fullName}, ${selectedAddress.area}, ${selectedAddress.city}, ${selectedAddress.state}`
@@ -82,7 +82,7 @@ const OrderSummary = () => {
           </button>
 
           {isDropdownOpen && (
-            <ul className="absolute w-full bg-white/90 backdrop-blur-md rounded-xl shadow-lg mt-2 py-2 z-20 max-h-60 overflow-auto">
+            <ul className="absolute z-20 mt-2 max-h-60 w-full overflow-auto rounded-xl border border-[#f2e1b8] bg-white/95 py-2 shadow-lg">
               {userAddresses.map((address, idx) => (
                 <li
                   key={idx}
@@ -110,9 +110,9 @@ const OrderSummary = () => {
           <input
             type="text"
             placeholder="Enter promo code"
-            className="flex-1 px-4 py-3 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-[#B8860B] bg-white/60 backdrop-blur-sm text-gray-700"
+            className="flex-1 rounded-xl border border-[#e7d4aa] bg-white/80 px-4 py-3 text-gray-700 outline-none focus:ring-2 focus:ring-[#B8860B]"
           />
-          <button className="px-6 py-3 rounded-xl bg-[#B8860B] text-white font-medium hover:bg-[#A7780A] transition">
+          <button className="rounded-xl bg-[#B8860B] px-6 py-3 font-medium text-white transition hover:bg-[#A7780A]">
             Apply
           </button>
         </div>
@@ -142,7 +142,7 @@ const OrderSummary = () => {
 
       <button
         onClick={createOrder}
-        className="w-full mt-6 py-3 rounded-xl bg-[#B8860B] text-white font-semibold hover:bg-[#A7780A] transition"
+        className="mt-6 w-full rounded-xl bg-[#B8860B] py-3 font-semibold text-white transition hover:bg-[#A7780A]"
       >
         Place Order
       </button>

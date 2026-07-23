@@ -12,10 +12,11 @@ const SideBar = () => {
     { name: 'Product List', path: '/seller/product-list', icon: assets.product_list_icon },
     { name: 'Orders', path: '/seller/orders', icon: assets.order_icon },
     { name: 'Messages', path: '/seller/messages', icon: assets.message_icon },
+    { name: 'Emails', path: '/seller/emails', icon: assets.message_icon },
   ];
 
   return (
-    <div className="md:w-64 w-16 min-h-screen border-r border-gray-300 py-4 flex flex-col bg-white/50 backdrop-blur-md shadow-lg">
+    <div className="md:w-64 w-16 min-h-screen border-r border-gray-300 py-4 flex flex-col bg-gradient-to-b from-[#fffdf8] to-[#fff7e6] shadow-[8px_0_30px_rgba(0,0,0,0.05)]">
       {menuItems.map((item) => {
         const isActive = pathname === item.path;
 
@@ -25,8 +26,8 @@ const SideBar = () => {
               className={`
                 flex items-center py-3 px-4 gap-4 rounded-r-xl transition-all duration-200 cursor-pointer
                 ${isActive 
-                  ? "bg-[#fdb242]/30 border-r-4 border-[#d4af37] shadow-inner" 
-                  : "hover:bg-gray-100/30 hover:backdrop-blur-sm"
+                  ? "bg-[#fff2cf] border-r-4 border-[#d4af37] shadow-inner" 
+                  : "hover:bg-white/70 hover:backdrop-blur-sm"
                 }
               `}
             >

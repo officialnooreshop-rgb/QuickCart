@@ -50,62 +50,57 @@ const HeaderSlider = () => {
   };
 
   return (
-  <div className="relative w-full overflow-hidden mt-2"> {/* 2px gap from navbar */}
-      {/* SLIDES */}
+    <div className="relative mt-2 w-full overflow-hidden rounded-[2rem] border border-[#f2e1b8] bg-gradient-to-br from-[#fff8e8] via-[#fffdf8] to-[#f6ead0] shadow-[0_12px_40px_rgba(184,134,11,0.12)]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(184,134,11,0.12),_transparent_35%)]" />
+
       <div
-        className="flex transition-transform duration-1000 ease-in-out"
+        className="relative flex transition-transform duration-1000 ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {sliderData.map((slide, index) => (
           <div
             key={slide.id}
-            className="min-w-full flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-14 py-10 bg-gradient-to-r from-[#FAFAFA] via-[#F7F7F7] to-[#FAFAFA] rounded-3xl"
+            className="min-w-full flex flex-col-reverse items-center justify-between px-6 py-10 md:flex-row md:px-14 md:py-12"
           >
-            {/* TEXT */}
-            <div className="max-w-lg md:pl-8 text-center md:text-left mt-8 md:mt-0">
-              <p className="text-sm md:text-base text-[#B8860B] font-medium tracking-wide mb-2">
+            <div className="mt-8 max-w-lg text-center md:mt-0 md:pl-8 md:text-left">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-[#B8860B] md:text-base">
                 {slide.offer}
               </p>
-              <h1 className="text-2xl md:text-5xl font-bold text-[#1E2A38] leading-snug md:leading-tight mb-4">
+              <h1 className="text-2xl font-bold leading-snug text-[#1E2A38] md:text-5xl md:leading-tight">
                 {slide.title}
               </h1>
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mt-4 md:mt-6">
-                <button 
+              <div className="mt-5 flex flex-col items-center gap-4 sm:flex-row sm:items-start md:mt-6">
+                <button
                   onClick={() => handleSlideClick(slide.id)}
-                  className="px-8 py-2 md:px-10 md:py-3 rounded-full bg-[#B8860B] text-[#1E2A38] font-semibold shadow-lg hover:scale-105 transition-transform"
+                  className="rounded-full bg-[#B8860B] px-8 py-3 font-semibold text-white shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-[0_8px_20px_rgba(184,134,11,0.25)] md:px-10"
                 >
                   {slide.buttonText1}
-                </button>
-                <button className="group flex items-center gap-2 text-[#1E2A38] font-medium hover:gap-3 transition-all">
                 </button>
               </div>
             </div>
 
-            {/* IMAGE */}
-            <div className="flex justify-center flex-1 mt-6 md:mt-0">
-              <div className="relative group">
+            <div className="mt-6 flex flex-1 justify-center md:mt-0">
+              <div className="group relative">
+                <div className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-t from-white/20 via-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-40" />
                 <Image
                   src={slide.imgSrc}
                   alt={`Slide ${index + 1}`}
-                  className="w-56 md:w-80 rounded-2xl drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                  className="w-56 rounded-[1.5rem] drop-shadow-[0_20px_40px_rgba(0,0,0,0.16)] transition-transform duration-500 group-hover:scale-105 md:w-80"
                 />
-                {/* GLASS AURA */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-white/20 via-white/10 to-transparent opacity-0 group-hover:opacity-40 transition-opacity"></div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* DOTS */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3">
+      <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-3">
         {sliderData.map((_, index) => (
           <span
             key={index}
             onClick={() => handleSlideChange(index)}
-            className={`h-3 w-3 rounded-full cursor-pointer transition-all ${
+            className={`h-3 w-3 cursor-pointer rounded-full transition-all ${
               currentSlide === index
-                ? "bg-[#A78B5B] scale-125"
+                ? "scale-125 bg-[#A78B5B]"
                 : "bg-gray-400/40"
             }`}
           />

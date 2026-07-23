@@ -20,10 +20,10 @@ const handleBuyNow = (e) => {
         router.push("/product/" + product._id);
         scrollTo(0, 0);
       }}
-      className="flex flex-col items-start gap-2 max-w-[220px] w-full cursor-pointer group"
+      className="flex flex-col items-start gap-2 max-w-[220px] w-full cursor-pointer group rounded-[1.25rem] border border-[#f4e4be] bg-white p-3 shadow-sm hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-all duration-300"
     >
       {/* IMAGE + GLASS AURA */}
-      <div className="relative w-full h-56 rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center shadow-sm hover:shadow-lg transition-shadow duration-300">
+      <div className="relative w-full h-56 rounded-[1rem] overflow-hidden bg-gradient-to-br from-[#fff8e8] to-[#fdf3d3] flex items-center justify-center shadow-sm hover:shadow-lg transition-shadow duration-300">
         <Image
           src={product.image[0]}
           alt={product.name}
@@ -73,7 +73,7 @@ const handleBuyNow = (e) => {
         </p>
         <button
           onClick={handleBuyNow}
-          className="max-sm:hidden px-4 py-1.5 text-[#000000] border border-[#B8860B]/30 rounded-full text-xs font-medium hover:bg-[#B8860B]/10 transition"
+          className="max-sm:hidden px-4 py-1.5 text-[#000000] border border-[#B8860B]/30 rounded-full text-xs font-medium bg-[#fff7e6] hover:bg-[#B8860B]/10 transition"
         >
           Add to Cart
         </button>

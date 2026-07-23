@@ -55,9 +55,15 @@ const AddProduct = () => {
 
   return (
     <div className="flex-1 min-h-screen flex flex-col bg-gray-50 p-4 md:p-8">
+      <div className="mx-auto mb-6 w-full max-w-3xl rounded-[2rem] border border-[#f2e1b8] bg-gradient-to-br from-[#fffdf8] to-[#fff7e6] p-6 shadow-[0_12px_40px_rgba(184,134,11,0.1)]">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b8860b]">Seller Dashboard</p>
+        <h2 className="mt-2 text-2xl font-semibold text-gray-800">Add a new product</h2>
+        <p className="mt-2 text-sm text-gray-600">Keep your catalog fresh and your customers engaged with polished product updates.</p>
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-2xl shadow-lg space-y-6"
+        className="max-w-3xl mx-auto bg-white p-6 md:p-10 rounded-[2rem] shadow-[0_12px_40px_rgba(0,0,0,0.08)] space-y-6 border border-gray-100"
       >
         {/* Images */}
         <div>
