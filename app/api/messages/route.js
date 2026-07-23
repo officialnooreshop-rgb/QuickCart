@@ -2,10 +2,9 @@ import db from '@/config/db';
 import Message from '@/Models/Message';
 import { NextResponse } from 'next/server';
 
-await db(); // Ensure the database connection is awaited
-
 export async function POST(req) {
   try {
+    await db();
     const { name, email, message, phoneNumber } = await req.json();
 
     console.log('Received data:', { name, email, message, phoneNumber }); // Log received data
