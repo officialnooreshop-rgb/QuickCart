@@ -6,6 +6,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 const outfit = Outfit({ subsets: ['latin'], weight: ["300", "400", "500"] })
 
+const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 export const metadata = {
   title: "Noore",
   description: "Tradition Woven In Threads", 
@@ -13,7 +15,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      dynamic={false}
+      signInUrl="/"
+      afterSignOutUrl="/"
+    >
       <html lang="en">
         <body className={`${outfit.className} antialiased text-gray-700`} >
           <Toaster />
@@ -22,6 +29,6 @@ export default function RootLayout({ children }) {
           </AppContextProvider>
         </body>
       </html>
-      </ClerkProvider>
+    </ClerkProvider>
   );
 }

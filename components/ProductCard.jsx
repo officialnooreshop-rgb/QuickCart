@@ -5,6 +5,8 @@ import { useAppContext } from "@/context/AppContext";
 
 const ProductCard = ({ product }) => {
   const { currency, router, addToCart } = useAppContext(); // make sure addToCart exists
+  const reviewCount = Number(product.reviewCount ?? product.review_count ?? 0);
+  const rating = Number(product.rating ?? product.avgRating ?? 0);
 
   // Buy Now button handler
 // Buy Now button handler
@@ -51,19 +53,21 @@ const handleBuyNow = (e) => {
       </p>
 
       {/* RATING */}
-      <div className="flex items-center gap-1">
-        <p className="text-xs text-gray-600">{4.5}</p>
-        <div className="flex items-center gap-0.5">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Image
-              key={index}
-              className="h-3 w-3"
-              src={index < Math.floor(4) ? assets.star_icon : assets.star_dull_icon}
-              alt="star_icon"
-            />
-          ))}
+      {reviewCount > 0 ? (
+        <div className="flex items-center gap-1">
+          <p className="text-xs text-gray-600">{rating.toFixed(1)}</p>
+          <div className="flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Image
+                key={index}
+                className="h-3 w-3"
+                src={index < Math.round(rating) ? assets.star_icon : assets.star_dull_icon}
+                alt="star_icon"
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {/* PRICE + BUY BUTTON */}
       <div className="flex items-center justify-between w-full mt-2">
